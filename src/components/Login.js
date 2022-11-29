@@ -1,29 +1,81 @@
-import React from 'react';
-// import RecitesContext from '../context/RecitesContext';
+import React, { useContext } from 'react';
+import RecitesContext from '../context/RecitesContext';
 
 export default function Login() {
-//   const {
-//     email,
-//     setEmail,
-//     passoword,
-//     setPassoword,
-//   } = useContext(RecitesContext);
+  const {
+    loginEmail,
+    button,
+    setLoginEmail,
+    passoword,
+    setPassoword,
+    setButton,
+  } = useContext(RecitesContext);
+
+  const fetchButton = () => {
+    const format = { email: loginEmail };
+    localStorage.setItem('mealsToken', 1);
+    localStorage.setItem('cocktailsToken', 1);
+    localStorage.setItem('user', JSON.stringify(format));
+  };
+
+  const testLogin = () => {
+    const testEmail = loginEmail.includes('@' && '.com');
+    const max = 6;
+
+    if (passoword.length >= max && testEmail) {
+      setButton(false);
+    } else {
+      setButton(true);
+    }
+  };
+  console.log(passoword.length);
+  console.log(passoword);
+
+  const handleChange = ({ target }) => {
+    const { id, value } = target;
+    if (id === 'email-input') {
+      setLoginEmail(value);
+    } else {
+      setPassoword(value);
+    }
+    testLogin();
+  };
   return (
     <div>
-      <input
-        type="text"
-        data-testid="email-input"
-      />
-      <input
-        type="text"
-        data-testid="password-input"
-      />
-      <button
-        type="button"
-        data-testid="login-submit-btn"
-      >
-        Enter
-      </button>
+      <form>
+        <label htmlFor="email-input">
+          <input
+            type="text"
+            id="email-input"
+            placeholder="Email"
+            data-testid="email-input"
+            value={ loginEmail }
+            //   onChange={ ({ target: { value } }) => {
+            //     setLoginEmail(value);
+            //   } }
+            onChange={ (element) => handleChange(element) }
+          />
+        </label>
+        <label htmlFor="password-input">
+          <input
+            type="text"
+            id="password-input"
+            placeholder="Password"
+            data-testid="password-input"
+            value={ passoword }
+            //   onChange={ ({ target: { value } }) => setPassoword(value) }
+            onChange={ (element) => handleChange(element) }
+          />
+        </label>
+        <button
+          type="button"
+          data-testid="login-submit-btn"
+          disabled={ button }
+          onClick={ () => fetchButton() }
+        >
+          Enter
+        </button>
+      </form>
     </div>
   );
 }

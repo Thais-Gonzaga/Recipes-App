@@ -3,22 +3,29 @@ import Proptypes from 'prop-types';
 import RecitesContext from './RecitesContext';
 
 export default function Provider({ children }) {
-  const [email, setEmail] = useState('');
+  const [loginEmail, setLoginEmail] = useState('');
   const [passoword, setPassoword] = useState('');
+  const [button, setButton] = useState(true);
 
-  const context = useMemo(() => ({
-    email,
-    setEmail,
-    passoword,
-    setPassoword,
-  }), [
-    email,
-    setEmail,
-    passoword,
-    setPassoword,
-  ]);
   // Link para a explicação do useMemo
   // https://beta.reactjs.org/apis/react/useMemo
+
+  const context = useMemo(() => ({
+    loginEmail,
+    setLoginEmail,
+    passoword,
+    setPassoword,
+    button,
+    setButton,
+  }), [
+    loginEmail,
+    setLoginEmail,
+    passoword,
+    setPassoword,
+    button,
+    setButton,
+  ]);
+
   return (
     <RecitesContext.Provider value={ context }>
       {children}

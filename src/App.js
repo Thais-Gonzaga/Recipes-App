@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import rockGlass from './images/rockGlass.svg';
+// import rockGlass from './images/rockGlass.svg';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Provider from './context/Provider';
 import Login from './components/Login';
@@ -8,7 +8,7 @@ import Login from './components/Login';
 function App() {
   return (
     <Provider>
-      <div className="meals">
+      {/* <div className="meals">
         <span className="logo">TRYBE</span>
         <object
           className="rocksGlass"
@@ -17,7 +17,7 @@ function App() {
         >
           Glass
         </object>
-      </div>
+      </div> */}
       <Login />
     </Provider>
   );
