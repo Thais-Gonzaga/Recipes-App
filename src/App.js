@@ -1,25 +1,61 @@
 import React from 'react';
 import './App.css';
-// import rockGlass from './images/rockGlass.svg';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Provider from './context/Provider';
+import { Route, Switch } from 'react-router-dom';
 import Login from './pages/Login';
+import RecipeDetails from './pages/RecipeDetails';
+import RecipeInProgress from './pages/RecipeInProgress';
+import Profile from './pages/Profile';
+import DoneRecipes from './pages/DoneRecipes';
+import FavoriteRecipes from './pages/FavoriteRecipes';
+import Meals from './pages/Meals';
+import Drinks from './pages/Drinks';
 
 function App() {
   return (
-    <Provider>
-      {/* <div className="meals">
-        <span className="logo">TRYBE</span>
-        <object
-          className="rocksGlass"
-          type="image/svg+xml"
-          data={ rockGlass }
-        >
-          Glass
-        </object>
-      </div> */}
-      <Login />
-    </Provider>
+    <Switch>
+      <Route
+        exact
+        path="/"
+        render={ (props) => <Login { ...props } /> }
+      />
+      <Route
+        path="/meals"
+        render={ (props) => <Meals { ...props } /> }
+      />
+      <Route
+        path="/meals/:id-da-receita"
+        render={ (props) => <RecipeDetails { ...props } /> }
+      />
+      <Route
+        path="/meals/:id-da-receita/:in-progress"
+        render={ (props) => <RecipeInProgress { ...props } /> }
+      />
+      <Route
+        path="/drinks"
+        render={ (props) => <Drinks { ...props } /> }
+      />
+      <Route
+        path="/drinks/:id-da-receita"
+        render={ (props) => <RecipeDetails { ...props } /> }
+      />
+      <Route
+        path="/drinks/:id-da-receita/in-progress"
+        render={ (props) => <RecipeInProgress { ...props } /> }
+      />
+      <Route
+        path="/Profile"
+        render={ (props) => <Profile { ...props } /> }
+      />
+      <Route
+        path="/done-recipes"
+        render={ (props) => <DoneRecipes { ...props } /> }
+      />
+      <Route
+        path="/favorite-recipes"
+        render={ (props) => <FavoriteRecipes { ...props } /> }
+      />
+    </Switch>
   );
 }
 
