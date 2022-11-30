@@ -3,7 +3,7 @@ import './App.css';
 // import rockGlass from './images/rockGlass.svg';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Provider from './context/Provider';
-import Login from './components/Login';
+import Login from './pages/Login';
 
 function App() {
   return (

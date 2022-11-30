@@ -1,21 +1,25 @@
 import React, { useContext } from 'react';
+import { useHistory } from 'react-router';
+
 import RecitesContext from '../context/RecitesContext';
 
 export default function Login() {
   const {
-    loginEmail,
     button,
+    setButton,
+    loginEmail,
     setLoginEmail,
     passoword,
     setPassoword,
-    setButton,
   } = useContext(RecitesContext);
+
+  const history = useHistory('/meals');
 
   const fetchButton = () => {
     const format = { email: loginEmail };
-    localStorage.setItem('mealsToken', 1);
-    localStorage.setItem('cocktailsToken', 1);
     localStorage.setItem('user', JSON.stringify(format));
+    history.push('/meals');
+    console.log(history);
   };
 
   const testLogin = () => {
@@ -28,8 +32,6 @@ export default function Login() {
       setButton(true);
     }
   };
-  console.log(passoword.length);
-  console.log(passoword);
 
   const handleChange = ({ target }) => {
     const { id, value } = target;
@@ -44,26 +46,24 @@ export default function Login() {
     <div>
       <form>
         <label htmlFor="email-input">
+          email:
           <input
             type="text"
             id="email-input"
             placeholder="Email"
             data-testid="email-input"
             value={ loginEmail }
-            //   onChange={ ({ target: { value } }) => {
-            //     setLoginEmail(value);
-            //   } }
             onChange={ (element) => handleChange(element) }
           />
         </label>
         <label htmlFor="password-input">
+          Passoword:
           <input
             type="text"
             id="password-input"
             placeholder="Password"
             data-testid="password-input"
             value={ passoword }
-            //   onChange={ ({ target: { value } }) => setPassoword(value) }
             onChange={ (element) => handleChange(element) }
           />
         </label>
