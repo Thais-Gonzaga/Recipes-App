@@ -1,8 +1,12 @@
+import Footer from '../components/Footer';
 import Header from '../components/Header';
 
 function Profile() {
   return (
-    <Header title="Profile" isSearchOn={ false } />
+    <div>
+      <Header title="Profile" isSearchOn={ false } />
+      <Footer />
+    </div>
   );
 }
 
