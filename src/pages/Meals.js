@@ -1,8 +1,12 @@
 import Header from '../components/Header';
+// import SearchBar from '../components/SearchBar';
 
 function Meals() {
   return (
-    <Header title="Meals" isSearchOn />
+    <>
+      <Header title="Meals" isSearchOn />
+      {/* { if (search)&& <SearchBar /> } */}
+    </>
   );
 }
 
