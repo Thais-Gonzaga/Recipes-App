@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { searchResults } from '../redux/actions';
 import UseFetchIng from '../hooks/useFetchIng';
 import UseFetchLett from '../hooks/useFetchLett';
 import UseFetchName from '../hooks/useFetchName';
@@ -11,52 +12,52 @@ export default function SearchBar() {
   const dispatch = useDispatch();
   const [searchType, setSearchType] = useState('');
   const [search, setSearch] = useState('');
-  const [result, setResult] = useState([]);
 
-  const searchAPIs = () => {
+  const searchAPIs = async () => {
     switch (searchType) {
     case 'ingredient': {
-      const ingData = UseFetchIng(search);
-      if (history.pathname === '/meals') {
-        setResult(ingData.foodData);
-      } else {
-        setResult(ingData.drinkData);
+      if (history.location.pathname === '/meals') {
+        const ingData = await UseFetchIng(search, 'meals');
+        setResult(ingData);
+        return ingData;
       }
-      break;
+      const ingData = await UseFetchIng(search, 'drinks');
+      setResult(ingData);
+      return ingData;
     }
     case 'name': {
-      const nameData = UseFetchName(search);
-      if (history.pathname === '/meals') {
-        setResult(nameData.foodData);
-      } else {
-        setResult(nameData.drinkData);
+      if (history.location.pathname === '/meals') {
+        const nameData = await UseFetchName(search, 'meals');
+        return nameData;
       }
-      break;
+      const nameData = await UseFetchName(search, 'drinks');
+      return nameData;
     }
     case 'firstLet': {
       if (search.length > 1) {
         return global.alert('Your search must have only 1 (one) character');
       }
-      const letterData = UseFetchLett(search);
-      if (history.pathname === '/meals') {
-        setResult(letterData.foodData);
-      } else {
-        setResult(letterData.drinkData);
+      if (history.location.pathname === '/meals') {
+        const letterData = await UseFetchLett(search, 'meals');
+        return letterData;
       }
-      break;
+      const letterData = await UseFetchLett(search, 'drinks');
+      return letterData;
     }
     default:
       break;
     }
   };
-  const HandleClick = () => {
-    searchAPIs();
-    dispatch(searchResults(result));
+  const HandleClick = async () => {
+    const mySearch = await searchAPIs();
+    dispatch(searchResults(mySearch));
+    if (mySearch.length === 0) {
+      global.alert('Sorry, we haven\'t found any recipes for these filters.');
+    }
     setSearch('');
     setSearchType('');
   };
 
-  // Falta enviar o result para a tela principal '='
   return (
     <div className="searchDiv">
       <label htmlFor="search">
