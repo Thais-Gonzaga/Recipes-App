@@ -8,13 +8,16 @@ import { fetchDrinkId, fetchMealsId } from '../services/fetchApi';
 function RecipeDetails() {
   const { id } = useParams();
   const [responseDrinkId, setResponseDrinkId] = useState([]);
+  const [objDrink, setObjDrink] = useState({});
   const [responseMealId, setResponseMealId] = useState([]);
+  const [objMeal, setObjMeal] = useState({});
 
   useEffect(() => {
     const fetchApiD = async () => {
       const drinks = await fetchDrinkId(id);
       if (!drinks) return;
       setResponseDrinkId(drinks);
+      setObjDrink(drinks[0]);
     };
     fetchApiD();
   }, []);
@@ -24,15 +27,80 @@ function RecipeDetails() {
       const meals = await fetchMealsId(id);
       if (!meals) return;
       setResponseMealId(meals);
+      setObjMeal(meals[0]);
     };
     fetchApiM();
   }, []);
 
-  console.log(responseDrinkId);
-  console.log(responseMealId);
+  const ingredientsDrinks = Object.entries(objDrink)
+    .reduce((acc, [key, value]) => (
+      value && key.includes('strIngredient') ? [...acc, { ing: value }] : acc), []);
+
+  const ingredientsMeals = Object.entries(objMeal)
+    .reduce((acc, [key, value]) => (
+      value && key.includes('strIngredient') ? [...acc, { ing: value }] : acc), []);
+  const { strDrinkThumb, strDrink, strAlcoholic, strInstructions } = objDrink;
 
   return (
-    <h1>Recipe Details</h1>
+    <div>
+      <h1>Recipe Details</h1>
+      <div>
+        {responseDrinkId.length
+        && (
+          <section>
+            <img
+              data-testid="recipe-photo"
+              src={ strDrinkThumb }
+              alt={ strDrink }
+            />
+            <h2 data-testid="recipe-title">{ strDrink }</h2>
+            <h3> Category:</h3>
+            <p data-testid="recipe-category">{ strAlcoholic }</p>
+            <h3> Ingredients:</h3>
+            <ul>
+              {ingredientsDrinks.map(({ ing }, index) => (
+                <li
+                  data-testid={ `${index}-ingredient-name-and-measure` }
+                  key={ index }
+                >
+                  {`${ing} ${measureDrinks[index]}`}
+                </li>
+              ))}
+            </ul>
+            <h3>Instructions</h3>
+            <p data-testid="instructions">{strInstructions}</p>
+
+          </section>
+        )}
+        {responseMealId.length
+        && (
+          <section>
+            {/* <img
+              data-testid="recipe-photo"
+              src={ strDrinkThumb }
+              alt={ strDrink }
+            />
+            <h2 data-testid="recipe-title">{ strDrink }</h2>
+            <h3> Category:</h3>
+            <p data-testid="recipe-category">{ strAlcoholic }</p>
+            <h3> Ingredients:</h3>
+            <ul>
+              {ingredientsDrinks.map(({ ing }, index) => (
+                <li
+                  data-testid={ `${index}-ingredient-name-and-measure` }
+                  key={ index }
+                >
+                  {`${ing} ${measureDrinks[index]}`}
+                </li>
+              ))}
+            </ul>
+            <h3>Instructions</h3>
+            <p data-testid="instructions">{strInstructions}</p> */}
+
+          </section>
+        )}
+      </div>
+    </div>
   );
 }
 
