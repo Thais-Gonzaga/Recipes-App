@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import Drk from '../components/Drk';
 import Header from '../components/Header';
+import Meal from '../components/Meal';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
 
@@ -104,16 +106,8 @@ function FavoriteRecipes() {
             </Link>
             {
               e.type === 'meal'
-                ? <span
-                    data-testid={ `${index}-horizontal-top-text` }
-                >
-                  {`${e.nationality} - ${e.category}`}
-                  </span>
-                : <span
-                    data-testid={ `${index}-horizontal-top-text` }
-                >
-                  {e.alcoholicOrNot}
-                  </span>
+                ? <p data-testid={ `${index}-horizontal-top-text` }><Meal pro={ e } /></p>
+                : <p data-testid={ `${index}-horizontal-top-text` }><Drk pro={ e } /></p>
             }
             <button
               type="button"
