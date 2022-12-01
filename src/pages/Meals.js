@@ -11,7 +11,8 @@ function Meals() {
   };
   return (
     <div>
-      <Header title="Meals" isSearchOn toggleSearchBar={ toggleSearchBar } />
+      <Header title="Meals" isSearchOn={true} toggleSearchBar={ toggleSearchBar } />
+      <p>OIE</p>
       {searchBarOn && <SearchBar />}
       <Footer />
     </div>
