@@ -1,4 +1,6 @@
+
 import { useHistory } from 'react-router';
+import Footer from '../components/Footer';
 import Header from '../components/Header';
 
 function Profile() {
@@ -43,6 +45,7 @@ function Profile() {
           Logout
         </button>
       </form>
+      <Footer />
     </div>
   );
 }
