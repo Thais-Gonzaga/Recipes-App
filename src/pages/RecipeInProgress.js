@@ -7,7 +7,7 @@ function RecipeInProgress() {
       <button type="button" data-testid="favorite-btn">FAVORITAR</button>
       <p data-testid="recipe-category">TEXTO DA CATEGORIA</p>
       <label htmlFor="ingredient">
-        ingredients
+        ingredientss
         <input type="checkbox" />
       </label>
       <p data-testid="instructions">INSTRUÇÕES</p>
