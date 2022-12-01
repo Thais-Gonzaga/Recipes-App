@@ -15,3 +15,15 @@ export const fetchMealsId = async (id) => {
   const { meals } = await fetchApi(url);
   return meals;
 };
+
+export const fetchDrink = async () => {
+  const url = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+  const { drinks } = await fetchApi(url);
+  return drinks;
+};
+
+export const fetchMeals = async () => {
+  const url = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+  const { meals } = await fetchApi(url);
+  return meals;
+};
