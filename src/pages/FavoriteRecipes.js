@@ -8,29 +8,29 @@ const copy = require('clipboard-copy');
 
 function FavoriteRecipes() {
   const [recepies, setRecepies] = useState([]);
-  const teste = [{
-    id: 22,
-    type: 'meal',
-    nationality: 'br',
-    category: '',
-    alcoholicOrNot: 'alcoholic',
-    name: 'nome-da-receita',
-    image: 'imagem-da-receita'
-    },
-    {
-      id: 23,
-      type: 'drink',
-      nationality: 'br',
-      category: '',
-      alcoholicOrNot: 'alcoholic',
-      name: 'nome-da-receita2',
-      image: 'imagem-da-receita2'
-    }
-  ];
+  // const teste = [{
+  //   id: 22,
+  //   type: 'meal',
+  //   nationality: 'br',
+  //   category: '',
+  //   alcoholicOrNot: 'alcoholic',
+  //   name: 'nome-da-receita',
+  //   image: 'imagem-da-receita'
+  //   },
+  //   {
+  //     id: 23,
+  //     type: 'drink',
+  //     nationality: 'br',
+  //     category: '',
+  //     alcoholicOrNot: 'alcoholic',
+  //     name: 'nome-da-receita2',
+  //     image: 'imagem-da-receita2'
+  //   }
+  // ];
 
   useEffect(() => {
     let myFavs = [];
-    localStorage.setItem('favoriteRecipes', JSON.stringify(teste));
+    // localStorage.setItem('favoriteRecipes', JSON.stringify(teste));
     myFavs = JSON.parse(localStorage.getItem('favoriteRecipes'));
     setRecepies(myFavs);
   }, []);
@@ -91,7 +91,7 @@ function FavoriteRecipes() {
         </button>
       </div>
       <div className="favItens">
-        {console.log(recepies)}
+        {/* {console.log(recepies)} */}
         {recepies.map((e, index) => (
           <div className="recipe" key={ index }>
             <Link to={ `/${e.type}/:${e.id}` }>
@@ -104,18 +104,16 @@ function FavoriteRecipes() {
             </Link>
             {
               e.type === 'meal'
-              ? 
-              <span
-                data-testid={ `${index}-horizontal-top-text` }
-              >
-                {`${e.nationality} - ${e.category}`}
-              </span>
-              :
-              <span
-                data-testid={ `${index}-horizontal-top-text` }
-              >
-                {e.alcoholicOrNot}
-              </span>
+                ? <span
+                    data-testid={ `${index}-horizontal-top-text` }
+                >
+                  {`${e.nationality} - ${e.category}`}
+                  </span>
+                : <span
+                    data-testid={ `${index}-horizontal-top-text` }
+                >
+                  {e.alcoholicOrNot}
+                  </span>
             }
             <button
               type="button"
