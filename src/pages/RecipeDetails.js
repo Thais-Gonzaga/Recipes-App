@@ -13,6 +13,8 @@ function RecipeDetails() {
   const fetchApi = isDrink ? fetchMeals : fetchDrink;
   const ingredients = valuesApi(response, 'strIngredient');
   const measure = valuesApi(response, 'strMeasure');
+  const localStoregeDone = JSON.parse(localStorage.getItem('doneRecipes')) || [];
+  const isFinish = localStoregeDone.some(({ id: i }) => i === id);
 
   const fetchCB = useCallback(async () => {
     const data = await fetchApiId(id);
@@ -69,6 +71,7 @@ function RecipeDetails() {
         className="btn-start"
         data-testid="start-recipe-btn"
         type="button"
+        disabled={ !isFinish }
       >
         Start Recipe
       </button>
