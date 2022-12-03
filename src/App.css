@@ -73,3 +73,20 @@
     transform: rotate(-10deg);
   }
 }
+
+.carrosel {
+  display: flex;
+  flex-wrap: nowrap;
+  height: 100%;
+  overflow-x: scroll;
+  width: 150px;
+}
+
+.item {
+  margin: 15px;
+  padding: auto;
+}
+
+.title {
+  font-size: 15px;
+}
