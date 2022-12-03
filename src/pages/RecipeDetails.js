@@ -62,7 +62,17 @@ function RecipeDetails() {
                 title={ strMeal }
               />}
       </section>
+
       <Recommendations fetchApi={ fetchApi } />
+
+      <button
+        className="btn-start"
+        data-testid="start-recipe-btn"
+        type="button"
+      >
+        Start Recipe
+      </button>
+
     </div>
   );
 }
