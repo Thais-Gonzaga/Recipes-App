@@ -18,11 +18,9 @@ export default function SearchBar() {
     case 'ingredient': {
       if (history.location.pathname === '/meals') {
         const ingData = await UseFetchIng(search, 'meals');
-        setResult(ingData);
         return ingData;
       }
       const ingData = await UseFetchIng(search, 'drinks');
-      setResult(ingData);
       return ingData;
     }
     case 'name': {
@@ -35,7 +33,8 @@ export default function SearchBar() {
     }
     case 'firstLet': {
       if (search.length > 1) {
-        return global.alert('Your search must have only 1 (one) character');
+        global.alert('Your search must have only 1 (one) character');
+        return [];
       }
       if (history.location.pathname === '/meals') {
         const letterData = await UseFetchLett(search, 'meals');
@@ -50,12 +49,15 @@ export default function SearchBar() {
   };
   const HandleClick = async () => {
     const mySearch = await searchAPIs();
-    dispatch(searchResults(mySearch));
-    if (mySearch.length === 0) {
+    console.log(typeof mySearch, ' ==== ', mySearch);
+    if (!mySearch || mySearch.length === 0) {
       global.alert('Sorry, we haven\'t found any recipes for these filters.');
+      dispatch(searchResults([]));
+    } if (mySearch) {
+      dispatch(searchResults(mySearch));
+      setSearch('');
+      setSearchType('');
     }
-    setSearch('');
-    setSearchType('');
   };
 
   return (
