@@ -4,6 +4,8 @@ import Recommendations from '../components/Recommendations';
 import { fetchDrink, fetchDrinkId, fetchMeals, fetchMealsId } from '../services/fetchApi';
 import valuesApi from '../services/valuesApi';
 
+const nullInprogress = { drinks: {}, meals: {} };
+
 function RecipeDetails() {
   const { id } = useParams();
   const [response, setResponse] = useState({});
@@ -14,6 +16,13 @@ function RecipeDetails() {
   const ingredients = valuesApi(response, 'strIngredient');
   const measure = valuesApi(response, 'strMeasure');
   const localStoregeDone = JSON.parse(localStorage.getItem('doneRecipes')) || [];
+  const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'))
+  || nullInprogress;
+
+  const { drinks, meals } = inProgressRecipes;
+  // encadeamento opcional
+  const inProgress = !!meals?.[id] || !!drinks?.[id];
+
   const isFinish = localStoregeDone.some(({ id: i }) => i === id);
 
   const fetchCB = useCallback(async () => {
@@ -73,7 +82,7 @@ function RecipeDetails() {
         type="button"
         disabled={ !isFinish }
       >
-        Start Recipe
+        {inProgress ? 'Continue Recipe' : 'Start Recipe'}
       </button>
 
     </div>
