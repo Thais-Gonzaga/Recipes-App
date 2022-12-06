@@ -1,5 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link, useHistory, useParams } from 'react-router-dom';
+import BtnFavorite from '../components/BtnFavorite';
+import BtnShare from '../components/BtnShare';
 import Recommendations from '../components/Recommendations';
 import { fetchDrink, fetchDrinkId, fetchMeals, fetchMealsId } from '../services/fetchApi';
 import valuesApi from '../services/valuesApi';
@@ -48,6 +50,8 @@ function RecipeDetails() {
           alt={ strDrink || strMeal }
         />
         <h2 data-testid="recipe-title">{ strDrink || strMeal}</h2>
+        <BtnFavorite />
+        <BtnShare />
         <h3> Category:</h3>
         <p data-testid="recipe-category">{ strAlcoholic || strCategory }</p>
         <h3> Ingredients:</h3>
