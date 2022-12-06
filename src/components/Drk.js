@@ -1,11 +1,14 @@
 import PropTypes from 'prop-types';
 
-export default function Drk({ alcoholicOrNot }) {
+export default function Drk({ pro }) {
+  const { alcoholicOrNot } = pro;
   return (
     <p>{`${alcoholicOrNot}`}</p>
   );
 }
 
 Drk.propTypes = {
-  alcoholicOrNot: PropTypes.string.isRequired,
+  pro: PropTypes.shape({
+    alcoholicOrNot: PropTypes.string.isRequired,
+  }).isRequired,
 };

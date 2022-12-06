@@ -10,35 +10,20 @@ const copy = require('clipboard-copy');
 
 function FavoriteRecipes() {
   const [recepies, setRecepies] = useState([]);
-  // const teste = [{
-  //   id: 22,
-  //   type: 'meal',
-  //   nationality: 'br',
-  //   category: '',
-  //   alcoholicOrNot: 'alcoholic',
-  //   name: 'nome-da-receita',
-  //   image: 'imagem-da-receita'
-  //   },
-  //   {
-  //     id: 23,
-  //     type: 'drink',
-  //     nationality: 'br',
-  //     category: '',
-  //     alcoholicOrNot: 'alcoholic',
-  //     name: 'nome-da-receita2',
-  //     image: 'imagem-da-receita2'
-  //   }
-  // ];
+  const [localStg, setLocalStg] = useState([]);
+  const [copyText, setCopyText] = useState(false);
+  const threeSec = 3000;
 
   useEffect(() => {
     let myFavs = [];
     // localStorage.setItem('favoriteRecipes', JSON.stringify(teste));
     myFavs = JSON.parse(localStorage.getItem('favoriteRecipes'));
     setRecepies(myFavs);
+    setLocalStg(myFavs);
   }, []);
 
   const allBtn = () => {
-    setRecepies(myFavs);
+    setRecepies(localStg);
   };
 
   const mealBtn = () => {
@@ -53,17 +38,22 @@ function FavoriteRecipes() {
 
   const shareBtn = (id, type) => {
     if (type === 'meal') {
-      copy(`/meals/:${id}`);
+      setCopyText(true);
+      copy(`http://localhost:3000/meals/${id}`);
+      setTimeout(() => {
+        setCopyText(false);
+      }, threeSec);
       return global.alert('Link copied!');
     }
-    copy(`/drinks/:${id}`);
+    copy(`http://localhost:3000/drinks/${id}`);
     return global.alert('Link copied!');
   };
 
   const favBtn = (id) => {
-    const newFavs = myFavs.filter((e) => e.id !== id);
-    localStorage.setItem('favoriteRecipes', newFavs);
+    const newFavs = recepies.filter((e) => e.id !== id);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(newFavs));
     setRecepies(newFavs);
+    setLocalStg(newFavs);
   };
 
   return (
@@ -92,16 +82,19 @@ function FavoriteRecipes() {
           Drinks
         </button>
       </div>
+      { (copyText) ? <h2>Link copied!</h2> : null }
       <div className="favItens">
         {/* {console.log(recepies)} */}
         {recepies.map((e, index) => (
           <div className="recipe" key={ index }>
-            <Link to={ `/${e.type}/:${e.id}` }>
+            <Link to={ `/${e.type}s/${e.id}` }>
               <img
                 src={ e.image }
                 data-testid={ `${index}-horizontal-image` }
                 alt={ e.name }
               />
+            </Link>
+            <Link to={ `${e.type}s/${e.id}` }>
               <h1 data-testid={ `${index}-horizontal-name` }>{ e.name }</h1>
             </Link>
             {
@@ -111,18 +104,23 @@ function FavoriteRecipes() {
             }
             <button
               type="button"
-              data-testid={ `${index}-horizontal-share-btn` }
               onClick={ () => shareBtn(e.id, e.type) }
             >
-              <img src={ shareIcon } alt="favorite Icon" />
-              Share
+              <img
+                src={ shareIcon }
+                alt="favorite Icon"
+                data-testid={ `${index}-horizontal-share-btn` }
+              />
             </button>
             <button
               type="button"
-              data-testid={ `${index}-horizontal-favorite-btn` }
               onClick={ () => favBtn(e.id) }
             >
-              <img src={ blackHeartIcon } alt="favorite Icon" />
+              <img
+                src={ blackHeartIcon }
+                alt="favorite Icon"
+                data-testid={ `${index}-horizontal-favorite-btn` }
+              />
             </button>
           </div>
         ))}
