@@ -17,7 +17,6 @@ function Meals() {
   return (
     <div>
       <Header title="Meals" isSearchOn toggleSearchBar={ toggleSearchBar } />
-      <p>OIE</p>
       {searchBarOn && <SearchBar />}
       {/* {console.log(recepies) } */}
       {
