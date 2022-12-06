@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import Recommendations from '../components/Recommendations';
 import { fetchDrink, fetchDrinkId, fetchMeals, fetchMealsId } from '../services/fetchApi';
 import valuesApi from '../services/valuesApi';
@@ -16,15 +16,13 @@ function RecipeDetails() {
   const ingredients = valuesApi(response, 'strIngredient');
   const measure = valuesApi(response, 'strMeasure');
   const localStoregeDone = JSON.parse(localStorage.getItem('doneRecipes')) || [];
+  const isFinish = localStoregeDone.some(({ id: i }) => i === id);
   const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'))
   || nullInprogress;
-
   const { drinks, meals } = inProgressRecipes;
   // encadeamento opcional
   const inProgress = !!meals?.[id] || !!drinks?.[id];
-
-  const isFinish = localStoregeDone.some(({ id: i }) => i === id);
-
+  const url = isDrink ? `/drinks/${id}/in-progress` : `/meals/${id}/in-progress`;
   const fetchCB = useCallback(async () => {
     const data = await fetchApiId(id);
     if (!data) return;
@@ -75,15 +73,16 @@ function RecipeDetails() {
       </section>
 
       <Recommendations fetchApi={ fetchApi } />
-
-      <button
-        className="btn-start"
-        data-testid="start-recipe-btn"
-        type="button"
-        disabled={ !isFinish }
-      >
-        {inProgress ? 'Continue Recipe' : 'Start Recipe'}
-      </button>
+      <Link to={ url }>
+        <button
+          className="btn-start"
+          data-testid="start-recipe-btn"
+          type="button"
+          disabled={ isFinish }
+        >
+          {inProgress ? 'Continue Recipe' : 'Start Recipe'}
+        </button>
+      </Link>
 
     </div>
   );
