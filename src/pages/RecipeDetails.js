@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link, useHistory, useParams } from 'react-router-dom';
-import BtnShare from '../components/BtnShare';
 import BtnFavorite from '../components/BtnFavorite';
+import BtnShare from '../components/BtnShare';
 import Recommendations from '../components/Recommendations';
 import { fetchDrink, fetchDrinkId, fetchMeals, fetchMealsId } from '../services/fetchApi';
 import valuesApi from '../services/valuesApi';
 import valuesfavoriteRecipes from '../services/valuesfavoriteRecipes';
+import { getLocalStore } from '../services/localStore';
 
 const nullInprogress = { drinks: {}, meals: {} };
 
@@ -18,15 +19,16 @@ function RecipeDetails() {
   const fetchApi = isDrink ? fetchMeals : fetchDrink;
   const ingredients = valuesApi(response, 'strIngredient');
   const measure = valuesApi(response, 'strMeasure');
-  const localStoregeDone = JSON.parse(localStorage.getItem('doneRecipes')) || [];
+  const localStoregeDone = getLocalStore('doneRecipes') || [];
   const isFinish = localStoregeDone.some(({ id: i }) => i === id);
-  const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'))
-  || nullInprogress;
+  const inProgressRecipes = getLocalStore('inProgressRecipes') || nullInprogress;
   const { drinks, meals } = inProgressRecipes;
   // encadeamento opcional
   const inProgress = !!meals?.[id] || !!drinks?.[id];
   const url = isDrink ? `/drinks/${id}/in-progress` : `/meals/${id}/in-progress`;
   const arrayFavorite = valuesfavoriteRecipes(response, isDrink);
+  const current = getLocalStore('favoriteRecipes') || [];
+  const boolfavorite = current.some(({ id: idSelect }) => id === idSelect);
 
   const fetchCB = useCallback(async () => {
     const data = await fetchApiId(id);
@@ -53,7 +55,11 @@ function RecipeDetails() {
           alt={ strDrink || strMeal }
         />
         <h2 data-testid="recipe-title">{ strDrink || strMeal}</h2>
-        <BtnFavorite arrayFavorite={ arrayFavorite } />
+        <BtnFavorite
+          arrayFavorite={ arrayFavorite }
+          boolfavorite={ boolfavorite }
+          idSelect={ id }
+        />
         <BtnShare />
         <h3> Category:</h3>
         <p data-testid="recipe-category">{ strAlcoholic || strCategory }</p>
