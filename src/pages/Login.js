@@ -21,6 +21,27 @@ export default function Login() {
     history.push('/meals');
     console.log(history);
   };
+  
+//  =======
+//  import AppContext from '../context/AppContext';
+
+//  function Login() {
+//  const {
+//  loginEmail,
+//  button,
+//  setLoginEmail,
+//  passoword,
+//  setPassoword,
+//  setButton,
+//  } = useContext(AppContext);
+
+//  const fetchButton = () => {
+//  const format = { email: loginEmail };
+//  localStorage.setItem('mealsToken', 1);
+//  localStorage.setItem('cocktailsToken', 1);
+//  localStorage.setItem('user', JSON.stringify(format));
+//  >>>>>>> main-group-18-release
+
 
   const testLogin = () => {
     const testEmail = loginEmail.includes('@' && '.com');
