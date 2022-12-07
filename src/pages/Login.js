@@ -1,22 +1,31 @@
 import React, { useContext } from 'react';
+import { useHistory } from 'react-router';
 import AppContext from '../context/AppContext';
 
-function Login() {
+export default function Login() {
   const {
+    buttonEnter,
+    setButton,
     loginEmail,
-    button,
     setLoginEmail,
     passoword,
     setPassoword,
-    setButton,
   } = useContext(AppContext);
+
+  const history = useHistory('/meals');
 
   const fetchButton = () => {
     const format = { email: loginEmail };
-    localStorage.setItem('mealsToken', 1);
-    localStorage.setItem('cocktailsToken', 1);
     localStorage.setItem('user', JSON.stringify(format));
+    history.push('/meals');
   };
+
+  //  const fetchButton = () => {
+  //  const format = { email: loginEmail };
+  //  localStorage.setItem('mealsToken', 1);
+  //  localStorage.setItem('cocktailsToken', 1);
+  //  localStorage.setItem('user', JSON.stringify(format));
+  //  >>>>>>> main-group-18-release
 
   const testLogin = () => {
     const testEmail = loginEmail.includes('@' && '.com');
@@ -42,6 +51,7 @@ function Login() {
     <div>
       <form>
         <label htmlFor="email-input">
+          Email:
           <input
             type="text"
             id="email-input"
@@ -52,6 +62,7 @@ function Login() {
           />
         </label>
         <label htmlFor="password-input">
+          Passoword:
           <input
             type="text"
             id="password-input"
@@ -64,7 +75,7 @@ function Login() {
         <button
           type="button"
           data-testid="login-submit-btn"
-          disabled={ button }
+          disabled={ buttonEnter }
           onClick={ () => fetchButton() }
         >
           Enter
@@ -73,5 +84,3 @@ function Login() {
     </div>
   );
 }
-
-export default Login;
