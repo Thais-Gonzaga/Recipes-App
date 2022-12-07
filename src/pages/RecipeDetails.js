@@ -5,6 +5,7 @@ import BtnFavorite from '../components/BtnFavorite';
 import Recommendations from '../components/Recommendations';
 import { fetchDrink, fetchDrinkId, fetchMeals, fetchMealsId } from '../services/fetchApi';
 import valuesApi from '../services/valuesApi';
+import valuesfavoriteRecipes from '../services/valuesfavoriteRecipes';
 
 const nullInprogress = { drinks: {}, meals: {} };
 
@@ -25,6 +26,8 @@ function RecipeDetails() {
   // encadeamento opcional
   const inProgress = !!meals?.[id] || !!drinks?.[id];
   const url = isDrink ? `/drinks/${id}/in-progress` : `/meals/${id}/in-progress`;
+  const arrayFavorite = valuesfavoriteRecipes(response, isDrink);
+
   const fetchCB = useCallback(async () => {
     const data = await fetchApiId(id);
     if (!data) return;
@@ -50,7 +53,7 @@ function RecipeDetails() {
           alt={ strDrink || strMeal }
         />
         <h2 data-testid="recipe-title">{ strDrink || strMeal}</h2>
-        <BtnFavorite />
+        <BtnFavorite arrayFavorite={ arrayFavorite } />
         <BtnShare />
         <h3> Category:</h3>
         <p data-testid="recipe-category">{ strAlcoholic || strCategory }</p>
