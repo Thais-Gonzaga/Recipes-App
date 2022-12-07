@@ -15,6 +15,13 @@
   max-height: 80vh;
 }
 
+.footercss {
+  bottom: 0;
+  left: 0;
+  position: fixed;
+}
+
+
 /*
 #iceLeft {
   animation: clink .8s infinite ease;
@@ -65,4 +72,30 @@
   100% {
     transform: rotate(-10deg);
   }
+}
+
+.carrosel {
+  display: flex;
+  flex-wrap: nowrap;
+  height: 100%;
+  overflow-x: scroll;
+  width: 150px;
+}
+
+.item {
+  margin: 15px;
+  padding: auto;
+}
+
+.title {
+  font-size: 15px;
+}
+
+.btn-start {
+  bottom: 0;
+  font-size: 10px;
+  height: 50px;
+  position: fixed;
+  right: 10px;
+  width: 50px;
 }
