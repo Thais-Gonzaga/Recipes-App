@@ -2,9 +2,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { searchResults } from '../redux/actions';
-import UseFetchIng from '../hooks/useFetchIng';
-import UseFetchLett from '../hooks/useFetchLett';
-import UseFetchName from '../hooks/useFetchName';
+import searchAPIs from './helpers/doTheFetch';
 
 export default function SearchBar() {
   const history = useHistory();
@@ -13,44 +11,11 @@ export default function SearchBar() {
   const [searchType, setSearchType] = useState('');
   const [search, setSearch] = useState('');
 
-  const searchAPIs = async () => {
-    switch (searchType) {
-    case 'ingredient': {
-      if (history.location.pathname === '/meals') {
-        const ingData = await UseFetchIng(search, 'meals');
-        return ingData;
-      }
-      const ingData = await UseFetchIng(search, 'drinks');
-      return ingData;
-    }
-    case 'name': {
-      if (history.location.pathname === '/meals') {
-        const nameData = await UseFetchName(search, 'meals');
-        return nameData;
-      }
-      const nameData = await UseFetchName(search, 'drinks');
-      return nameData;
-    }
-    case 'firstLet': {
-      if (search.length > 1) {
-        global.alert('Your search must have only 1 (one) character');
-        return [];
-      }
-      if (history.location.pathname === '/meals') {
-        const letterData = await UseFetchLett(search, 'meals');
-        return letterData;
-      }
-      const letterData = await UseFetchLett(search, 'drinks');
-      return letterData;
-    }
-    default:
-      break;
-    }
-  };
   const HandleClick = async () => {
-    const mySearch = await searchAPIs();
+    const path = history.location.pathname;
+    const mySearch = await searchAPIs(path, searchType, search);
+    console.log(path, searchType, search, mySearch);
     if (!mySearch || mySearch.length === 0) {
-      console.log(mySearch);
       global.alert('Sorry, we haven\'t found any recipes for these filters.');
       dispatch(searchResults([]));
     } if (mySearch) {
