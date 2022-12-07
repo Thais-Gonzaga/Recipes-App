@@ -1,17 +1,16 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router';
-
-import RecitesContext from '../context/RecitesContext';
+import AppContext from '../context/AppContext';
 
 export default function Login() {
   const {
-    button,
+    buttonEnter,
     setButton,
     loginEmail,
     setLoginEmail,
     passoword,
     setPassoword,
-  } = useContext(RecitesContext);
+  } = useContext(AppContext);
 
   const history = useHistory('/meals');
 
@@ -19,29 +18,14 @@ export default function Login() {
     const format = { email: loginEmail };
     localStorage.setItem('user', JSON.stringify(format));
     history.push('/meals');
-    console.log(history);
   };
-  
-//  =======
-//  import AppContext from '../context/AppContext';
 
-//  function Login() {
-//  const {
-//  loginEmail,
-//  button,
-//  setLoginEmail,
-//  passoword,
-//  setPassoword,
-//  setButton,
-//  } = useContext(AppContext);
-
-//  const fetchButton = () => {
-//  const format = { email: loginEmail };
-//  localStorage.setItem('mealsToken', 1);
-//  localStorage.setItem('cocktailsToken', 1);
-//  localStorage.setItem('user', JSON.stringify(format));
-//  >>>>>>> main-group-18-release
-
+  //  const fetchButton = () => {
+  //  const format = { email: loginEmail };
+  //  localStorage.setItem('mealsToken', 1);
+  //  localStorage.setItem('cocktailsToken', 1);
+  //  localStorage.setItem('user', JSON.stringify(format));
+  //  >>>>>>> main-group-18-release
 
   const testLogin = () => {
     const testEmail = loginEmail.includes('@' && '.com');
@@ -67,7 +51,7 @@ export default function Login() {
     <div>
       <form>
         <label htmlFor="email-input">
-          email:
+          Email:
           <input
             type="text"
             id="email-input"
@@ -91,7 +75,7 @@ export default function Login() {
         <button
           type="button"
           data-testid="login-submit-btn"
-          disabled={ button }
+          disabled={ buttonEnter }
           onClick={ () => fetchButton() }
         >
           Enter

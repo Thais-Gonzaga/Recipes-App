@@ -5,7 +5,7 @@ import AppContext from './AppContext';
 function AppProvider({ children }) {
   const [loginEmail, setLoginEmail] = useState('');
   const [passoword, setPassoword] = useState('');
-  const [button, setButton] = useState(true);
+  const [buttonEnter, setButton] = useState(true);
 
   // Link para a explicação do useMemo
   // https://beta.reactjs.org/apis/react/useMemo
@@ -15,14 +15,14 @@ function AppProvider({ children }) {
     setLoginEmail,
     passoword,
     setPassoword,
-    button,
+    buttonEnter,
     setButton,
   }), [
     loginEmail,
     setLoginEmail,
     passoword,
     setPassoword,
-    button,
+    buttonEnter,
     setButton,
   ]);
 
