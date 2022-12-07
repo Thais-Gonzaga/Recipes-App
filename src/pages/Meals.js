@@ -7,12 +7,17 @@ import SearchBar from '../components/SearchBar';
 
 function Meals() {
   const [searchBarOn, setSearchBarOn] = useState(false);
+  // const [newRecepie, setNewRecepie] = useState([]);
   const recepies = useSelector((state) => state.reducer.recepies);
   const numbTwelve = 12;
 
   const toggleSearchBar = () => {
     setSearchBarOn((prevState) => !prevState);
   };
+
+  // useEffect(() => {
+  //   setNewRecepie(recepies);
+  // }, [recepies]);
 
   return (
     <div>

@@ -50,6 +50,7 @@ export default function SearchBar() {
   const HandleClick = async () => {
     const mySearch = await searchAPIs();
     if (!mySearch || mySearch.length === 0) {
+      console.log(mySearch);
       global.alert('Sorry, we haven\'t found any recipes for these filters.');
       dispatch(searchResults([]));
     } if (mySearch) {
