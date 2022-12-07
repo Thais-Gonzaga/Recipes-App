@@ -26,9 +26,9 @@ function Header({ title, isSearchOn }) {
 }
 
 Header.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func,
-  }).isRequired,
+  // history: PropTypes.shape({
+  //   push: PropTypes.func,
+  // }).isRequired,
   title: PropTypes.string.isRequired,
   isSearchOn: PropTypes.bool.isRequired,
 };

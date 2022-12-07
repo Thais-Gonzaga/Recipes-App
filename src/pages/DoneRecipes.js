@@ -110,7 +110,7 @@ function DoneRecipes() {
               <h3
                 data-testid={ `${index}-horizontal-name` }
                 onClick={ () => history.push(`/${recipe.type}s/${recipe.id}`) }
-                role="link"
+                // role="link"
               >
                 {recipe.name}
               </h3>
