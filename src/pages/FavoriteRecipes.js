@@ -28,12 +28,12 @@ function FavoriteRecipes() {
   };
 
   const mealBtn = () => {
-    const onlyMeal = recepies.filter((e) => e.type === 'meal');
+    const onlyMeal = localStg.filter((e) => e.type === 'meal');
     setRecepies(onlyMeal);
   };
 
   const drinkBtn = () => {
-    const onlyDrink = recepies.filter((e) => e.type === 'drink');
+    const onlyDrink = localStg.filter((e) => e.type === 'drink');
     setRecepies(onlyDrink);
   };
 
