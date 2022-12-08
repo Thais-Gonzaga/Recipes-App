@@ -20,27 +20,35 @@ function App() {
         render={ (props) => <Login { ...props } /> }
       />
       <Route
+        exact
         path="/meals"
         render={ (props) => <Meals { ...props } /> }
       />
       <Route
-        path="/meals/:id-da-receita"
-        render={ (props) => <RecipeDetails { ...props } /> }
-      />
-      <Route
-        path="/meals/:id-da-receita/:in-progress"
-        render={ (props) => <RecipeInProgress { ...props } /> }
-      />
-      <Route
+        exact
         path="/drinks"
         render={ (props) => <Drinks { ...props } /> }
       />
       <Route
-        path="/drinks/:id-da-receita"
+        path="/meals/:id"
         render={ (props) => <RecipeDetails { ...props } /> }
       />
       <Route
-        path="/drinks/:id-da-receita/in-progress"
+        exact
+        path="/meals/:id/in-progress"
+        render={ (props) => <RecipeInProgress { ...props } /> }
+      />
+      <Route
+        exact
+        path="/drinks"
+        render={ (props) => <Drinks { ...props } /> }
+      />
+      <Route
+        path="/drinks/:id"
+        render={ (props) => <RecipeDetails { ...props } /> }
+      />
+      <Route
+        path="/drinks/:id/in-progress"
         render={ (props) => <RecipeInProgress { ...props } /> }
       />
       <Route

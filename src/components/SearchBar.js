@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import UseFetchIng from '../hooks/useFetchIng';
-import UseFetchLett from '../hooks/useFetchLett';
-import UseFetchName from '../hooks/useFetchName';
+import { searchResults } from '../redux/actions';
+import searchAPIs from './helpers/doTheFetch';
 
 export default function SearchBar() {
   const history = useHistory();
@@ -11,52 +10,21 @@ export default function SearchBar() {
   const dispatch = useDispatch();
   const [searchType, setSearchType] = useState('');
   const [search, setSearch] = useState('');
-  const [result, setResult] = useState([]);
 
-  const searchAPIs = () => {
-    switch (searchType) {
-    case 'ingredient': {
-      const ingData = UseFetchIng(search);
-      if (history.pathname === '/meals') {
-        setResult(ingData.foodData);
-      } else {
-        setResult(ingData.drinkData);
-      }
-      break;
-    }
-    case 'name': {
-      const nameData = UseFetchName(search);
-      if (history.pathname === '/meals') {
-        setResult(nameData.foodData);
-      } else {
-        setResult(nameData.drinkData);
-      }
-      break;
-    }
-    case 'firstLet': {
-      if (search.length > 1) {
-        return global.alert('Your search must have only 1 (one) character');
-      }
-      const letterData = UseFetchLett(search);
-      if (history.pathname === '/meals') {
-        setResult(letterData.foodData);
-      } else {
-        setResult(letterData.drinkData);
-      }
-      break;
-    }
-    default:
-      break;
+  const HandleClick = async () => {
+    const path = history.location.pathname;
+    const mySearch = await searchAPIs(path, searchType, search);
+    console.log(path, searchType, search, mySearch);
+    if (!mySearch || mySearch.length === 0) {
+      global.alert('Sorry, we haven\'t found any recipes for these filters.');
+      dispatch(searchResults([]));
+    } if (mySearch) {
+      dispatch(searchResults(mySearch));
+      setSearch('');
+      setSearchType('');
     }
   };
-  const HandleClick = () => {
-    searchAPIs();
-    dispatch(searchResults(result));
-    setSearch('');
-    setSearchType('');
-  };
 
-  // Falta enviar o result para a tela principal '='
   return (
     <div className="searchDiv">
       <label htmlFor="search">
