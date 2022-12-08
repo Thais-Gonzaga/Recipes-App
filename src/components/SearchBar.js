@@ -17,12 +17,11 @@ export default function SearchBar() {
     console.log(path, searchType, search, mySearch);
     if (!mySearch || mySearch.length === 0) {
       global.alert('Sorry, we haven\'t found any recipes for these filters.');
-      dispatch(searchResults([]));
-    } if (mySearch) {
-      dispatch(searchResults(mySearch));
-      setSearch('');
-      setSearchType('');
+      return dispatch(searchResults([]));
     }
+    dispatch(searchResults(mySearch));
+    setSearch('');
+    setSearchType('');
   };
 
   return (

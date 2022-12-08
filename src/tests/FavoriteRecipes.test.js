@@ -91,11 +91,7 @@ describe('Testes da pagina de Receitas favoritas', () => {
     const shareBtn = screen.getByTestId('1-horizontal-share-btn');
     expect(shareBtn).toBeInTheDocument();
     userEvent.click(shareBtn);
-    const loading = screen.getByRole('heading', {
-      name: /link copied!/i,
-    });
     expect(global.alert).toHaveBeenCalled();
-    expect(loading).toBeInTheDocument();
   });
 
   it('Testa o favorite Button', () => {
