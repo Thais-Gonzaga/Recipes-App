@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import './styles/FavoriteRecipes.css';
 import Drk from '../components/Drk';
 import Header from '../components/Header';
 import Meal from '../components/Meal';
@@ -89,6 +90,7 @@ function FavoriteRecipes() {
           <div className="recipe" key={ index }>
             <Link to={ `/${e.type}s/${e.id}` }>
               <img
+                className="recipeImg"
                 src={ e.image }
                 data-testid={ `${index}-horizontal-image` }
                 alt={ e.name }
