@@ -1,18 +1,22 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import App from '../App';
+import renderWithRouter from '../renderWithRouter';
+// import App from '../App';
+import Login from '../pages/Login';
+import AppProvider from '../context/AppProvider';
 
 const testEmail = 'trybe@trybe.com';
 const testPassoword = '1234567';
 const pushUrl = '/meals';
 
 describe('Teste da Tela de Login', () => {
-  beforeEach(() => {
-    render(<App />);
-  });
-
   it('É possivel escrever no campo de email?', () => {
+    renderWithRouter(
+      <AppProvider>
+        <Login />
+      </AppProvider>,
+    );
     const emailInput = screen.getByLabelText(/email:/i);
     expect(emailInput).toBeInTheDocument();
 
@@ -21,6 +25,11 @@ describe('Teste da Tela de Login', () => {
   });
 
   it('É possivel escrever no campo de senha?', () => {
+    renderWithRouter(
+      <AppProvider>
+        <Login />
+      </AppProvider>,
+    );
     const passInput = screen.getByLabelText(/Passoword:/i);
     expect(passInput).toBeInTheDocument();
 
@@ -29,12 +38,22 @@ describe('Teste da Tela de Login', () => {
   });
 
   it('Verifica se existe o button com o texto "Enter" e se ele está desabilitado', () => {
+    renderWithRouter(
+      <AppProvider>
+        <Login />
+      </AppProvider>,
+    );
     const fetchButton = screen.getByRole('button', { name: /Enter/i });
     expect(fetchButton).toBeInTheDocument();
     expect(fetchButton).toBeDisabled();
   });
 
   it('Verifica de ao preencher os campos o button habilita', () => {
+    renderWithRouter(
+      <AppProvider>
+        <Login />
+      </AppProvider>,
+    );
     const emailInput = screen.getByLabelText(/email:/i);
     userEvent.type(emailInput, testEmail);
 
@@ -44,19 +63,23 @@ describe('Teste da Tela de Login', () => {
     const fetchButton = screen.getByRole('button', { name: /Enter/i });
     expect(fetchButton).not.toBeDisabled();
   });
-});
 
-test('Verifica se o button está dando o push para /meals', () => {
-  const { history } = render(<App />);
+  test('Verifica se o button está dando o push para /meals', () => {
+    const { history } = renderWithRouter(
+      <AppProvider>
+        <Login />
+      </AppProvider>,
+    );
 
-  const emailInput = screen.getByLabelText(/email:/i);
-  userEvent.type(emailInput, testEmail);
+    const emailInput = screen.getByLabelText(/email:/i);
+    userEvent.type(emailInput, testEmail);
 
-  const passInput = screen.getByLabelText(/Passoword:/i);
-  userEvent.type(passInput, testPassoword);
+    const passInput = screen.getByLabelText(/Passoword:/i);
+    userEvent.type(passInput, testPassoword);
 
-  const fetchButton = screen.getByRole('button', { name: /Enter/i });
-  userEvent.click(fetchButton);
+    const fetchButton = screen.getByRole('button', { name: /Enter/i });
+    userEvent.click(fetchButton);
 
-  expect(history.location.pathname).toBe(pushUrl);
+    expect(history.location.pathname).toBe(pushUrl);
+  });
 });

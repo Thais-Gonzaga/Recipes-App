@@ -1,8 +1,8 @@
 import React, { useState, useMemo } from 'react';
-import Proptypes from 'prop-types';
+import PropTypes from 'prop-types';
 import AppContext from './AppContext';
 
-export default function Provider({ children }) {
+function AppProvider({ children }) {
   const [loginEmail, setLoginEmail] = useState('');
   const [passoword, setPassoword] = useState('');
   const [button, setButton] = useState(true);
@@ -35,3 +35,4 @@ export default function Provider({ children }) {
 Provider.propTypes = {
   children: Proptypes.node.isRequired,
 };
+export default AppProvider

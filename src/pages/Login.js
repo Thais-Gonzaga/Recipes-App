@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router';
-
 import AppContext from '../context/AppContext';
 
 export default function Login() {
@@ -18,8 +17,7 @@ export default function Login() {
   const fetchButton = () => {
     const format = { email: loginEmail };
     localStorage.setItem('user', JSON.stringify(format));
-    history.push('/meals');
-    console.log(history);
+    history.push('/meals')
   };
 
   const testLogin = () => {
@@ -46,7 +44,7 @@ export default function Login() {
     <div>
       <form>
         <label htmlFor="email-input">
-          email:
+          Email:
           <input
             type="text"
             id="email-input"
