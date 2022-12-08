@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import PropTypes from 'prop-types';
+import { node } from 'prop-types';
 import AppContext from './AppContext';
 
 function AppProvider({ children }) {
@@ -32,7 +32,7 @@ function AppProvider({ children }) {
     </AppContext.Provider>
   );
 }
-Provider.propTypes = {
-  children: Proptypes.node.isRequired,
+AppProvider.propTypes = {
+  children: node.isRequired,
 };
-export default AppProvider
+export default AppProvider;

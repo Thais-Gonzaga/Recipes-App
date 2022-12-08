@@ -17,7 +17,7 @@ export default function Login() {
   const fetchButton = () => {
     const format = { email: loginEmail };
     localStorage.setItem('user', JSON.stringify(format));
-    history.push('/meals')
+    history.push('/meals');
   };
 
   const testLogin = () => {
