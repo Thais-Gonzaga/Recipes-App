@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen, render } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from '../renderWithRouter';
 import DoneRecipes from '../pages/DoneRecipes';
@@ -63,7 +63,7 @@ describe('testes da página de receitas feitas', () => {
   setLocalStorage('doneRecipes', recipes);
   JSON.parse(localStorage.getItem('doneRecipes'));
   test('testa se a página renderiza os botões de filtro', () => {
-    render(<DoneRecipes />);
+    renderWithRouterq(<DoneRecipes />);
     const allButton = screen.getByRole('button', { name: 'All' });
     const mealsButton = screen.getByRole('button', { name: 'Meals' });
     const drinksButton = screen.getByRole('button', { name: 'Drinks' });
@@ -74,12 +74,12 @@ describe('testes da página de receitas feitas', () => {
   });
 
   test('testa se os dados de Receitas Feitas são acessados no local storage', () => {
-    render(<DoneRecipes />);
+    renderWithRouter(<DoneRecipes />);
     expect(localStorage.getItem('doneRecipes')).toEqual(JSON.stringify(recipes));
     // expect(window.localStorage.getItem).toHaveBeenCalledTimes(1);
   });
   test('testa se o filtro "Meals" funciona corretamente', () => {
-    render(<DoneRecipes />);
+    renderWithRouter(<DoneRecipes />);
     const doneRecipesList = screen.getAllByRole('heading', { level: 3 });
     expect(doneRecipesList).toHaveLength(2);
     const mealsButton = screen.getByRole('button', { name: 'Meals' });
@@ -88,7 +88,7 @@ describe('testes da página de receitas feitas', () => {
     expect(doneRecipesListFiltered).toHaveLength(1);
   });
   test('testa se o filtro "Drinks" funciona corretamente', () => {
-    render(<DoneRecipes />);
+    renderWithRouter(<DoneRecipes />);
     const doneRecipesList = screen.getAllByRole('heading', { level: 3 });
     expect(doneRecipesList).toHaveLength(2);
     const drinksButton = screen.getByRole('button', { name: 'Drinks' });
@@ -97,7 +97,7 @@ describe('testes da página de receitas feitas', () => {
     expect(doneRecipesListFiltered).toHaveLength(1);
   });
   test('testa se o filtro "All" funciona corretamente', () => {
-    render(<DoneRecipes />);
+    renderWithRouter(<DoneRecipes />);
     const doneRecipesList = screen.getAllByRole('heading', { level: 3 });
     expect(doneRecipesList).toHaveLength(2);
     const drinksButton = screen.getByRole('button', { name: 'Drinks' });
@@ -111,14 +111,14 @@ describe('testes da página de receitas feitas', () => {
   });
   test('testa se ao clicar na imagem da receita, o usuário é redirecionado para a página de detalhes', () => {
     const { history } = renderWithRouter(<DoneRecipes />);
-    const recipeOne = screen.getByTestId('0-horizontal-image');
+    const recipeOne = screen.getAllByRole('link')[0];
     userEvent.click(recipeOne);
     const { location: { pathname } } = history;
     expect(pathname).toBe('/meals/52977');
   });
   test('testa se ao clicar no nome da receita, o usuário é redirecionado para a página de detalhes', () => {
     const { history } = renderWithRouter(<DoneRecipes />);
-    const recipeOne = screen.getByTestId('0-horizontal-name');
+    const recipeOne = screen.getAllByRole('link')[1];
     userEvent.click(recipeOne);
     const { location: { pathname } } = history;
     expect(pathname).toBe('/meals/52977');

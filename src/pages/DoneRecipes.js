@@ -1,37 +1,34 @@
 import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import BtnShare from '../components/BtnShare';
 import Header from '../components/Header';
-import shareIcon from '../images/shareIcon.svg';
-
-const copy = require('clipboard-copy');
 
 function DoneRecipes() {
-  const history = useHistory();
   const [doneRecipes, setDoneRecipes] = useState([]);
   const [doneRecipesFilter, setDoneRecipesFilter] = useState('');
 
   useEffect(() => {
-    const recipes = [
-      { id: '52977',
-        type: 'meal',
-        nationality: 'Turkish',
-        category: 'Side',
-        name: 'Corba',
-        image: 'https://www.themealdb.com/images/media/meals/58oia61564916529.jpg',
-        doneDate: 'data',
-        tags: ['Soup'],
-      },
-      { id: '15997',
-        type: 'drink',
-        category: 'Ordinary Drink',
-        alcoholicOrNot: 'Optional Alcohol',
-        name: 'GG',
-        image: 'https://www.thecocktaildb.com/images/media/drink/vyxwut1468875960.jpg',
-        doneDate: 'data',
-        tags: [],
-      },
-    ];
-    localStorage.setItem('doneRecipes', JSON.stringify(recipes));
+    // const recipes = [
+    //   { id: '52977',
+    //     type: 'meal',
+    //     nationality: 'Turkish',
+    //     category: 'Side',
+    //     name: 'Corba',
+    //     image: 'https://www.themealdb.com/images/media/meals/58oia61564916529.jpg',
+    //     doneDate: 'data',
+    //     tags: ['Soup'],
+    //   },
+    //   { id: '15997',
+    //     type: 'drink',
+    //     category: 'Ordinary Drink',
+    //     alcoholicOrNot: 'Optional Alcohol',
+    //     name: 'GG',
+    //     image: 'https://www.thecocktaildb.com/images/media/drink/vyxwut1468875960.jpg',
+    //     doneDate: 'data',
+    //     tags: [],
+    //   },
+    // ];
+    // localStorage.setItem('doneRecipes', JSON.stringify(recipes));
     const retrievedDoneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
     setDoneRecipes(retrievedDoneRecipes);
   }, []);
@@ -92,12 +89,14 @@ function DoneRecipes() {
           .filter((recipe) => recipe.type.includes(doneRecipesFilter))
           .map((recipe, index) => (
             <div key={ index }>
-              <img
-                src={ recipe.image }
-                alt={ recipe.name }
-                data-testid={ `${index}-horizontal-image` }
-                onClick={ () => history.push(`/${recipe.type}s/${recipe.id}`) }
-              />
+              <Link to={ `/${recipe.type}s/${recipe.id}` }>
+                <img
+                  src={ recipe.image }
+                  alt={ recipe.name }
+                  data-testid={ `${index}-horizontal-image` }
+
+                />
+              </Link>
               <div
                 data-testid={ `${index}-horizontal-top-text` }
               >
@@ -107,25 +106,20 @@ function DoneRecipes() {
                 && <span>{`${recipe.alcoholicOrNot} - `}</span>}
                 <span>{recipe.category}</span>
               </div>
-              <h3
-                data-testid={ `${index}-horizontal-name` }
-                onClick={ () => history.push(`/${recipe.type}s/${recipe.id}`) }
-                // role="link"
-              >
-                {recipe.name}
-              </h3>
+              <Link to={ `/${recipe.type}s/${recipe.id}` }>
+                <h3
+                  data-testid={ `${index}-horizontal-name` }
+
+                >
+                  {recipe.name}
+                </h3>
+              </Link>
               <p
                 data-testid={ `${index}-horizontal-done-date` }
               >
                 {recipe.doneDate}
               </p>
               <div>
-                {/* <span
-                  data-testid={ `${index}-${recipe.tags[0]}-horizontal-tag` }
-                >
-                  {recipe.tags[0]}
-                </span> */}
-
                 { recipe.tags.length > 0
                 && (
                   <span
@@ -144,17 +138,21 @@ function DoneRecipes() {
                 )}
 
               </div>
-              <button
+              <BtnShare
+                urlSnippet={ `/${recipe.type}s/${recipe.id}` }
+                dataTest={ `${index}-horizontal-share-btn` }
+              />
+              {/* <button
                 type="button"
-                data-testid={ `${index}-horizontal-share-btn` }
-
+                onClick={ () => copy(`http://localhost:3000/${recipe.type}s/${recipe.id}`) }
               >
                 <img
+                  data-testid={ `${index}-horizontal-share-btn` }
                   src={ shareIcon }
                   alt="share"
-                  onClick={ () => copy(`http://localhost:3000/${recipe.type}s/${recipe.id}`) }
+
                 />
-              </button>
+              </button> */}
             </div>
           ))
       }
