@@ -23,7 +23,7 @@ function Meals() {
     <div>
       <Header title="Meals" isSearchOn toggleSearchBar={ toggleSearchBar } />
       {searchBarOn && <SearchBar />}
-      {/* {console.log(recipes) } */}
+      {console.log(recipes) }
       {
         recipes.length === 1
           ? <Redirect to={ `/meals/${recipes[0].idMeal}` } />
