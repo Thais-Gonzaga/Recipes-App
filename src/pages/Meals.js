@@ -8,7 +8,7 @@ import SearchBar from '../components/SearchBar';
 function Meals() {
   const [searchBarOn, setSearchBarOn] = useState(false);
   // const [newRecepie, setNewRecepie] = useState([]);
-  const recepies = useSelector((state) => state.reducer.recepies);
+  const recipes = useSelector((state) => state.reducer.recipes) || [];
   const numbTwelve = 12;
 
   const toggleSearchBar = () => {
@@ -16,18 +16,18 @@ function Meals() {
   };
 
   // useEffect(() => {
-  //   setNewRecepie(recepies);
-  // }, [recepies]);
+  //   setNewRecepie(recipes);
+  // }, [recipes]);
 
   return (
     <div>
       <Header title="Meals" isSearchOn toggleSearchBar={ toggleSearchBar } />
       {searchBarOn && <SearchBar />}
-      {/* {console.log(recepies) } */}
+      {console.log(recipes) }
       {
-        recepies.length === 1
-          ? <Redirect to={ `/meals/${recepies[0].idMeal}` } />
-          : recepies.map((e, i) => {
+        recipes.length === 1
+          ? <Redirect to={ `/meals/${recipes[0].idMeal}` } />
+          : recipes.map((e, i) => {
             if (i < numbTwelve) {
               return (
                 <div

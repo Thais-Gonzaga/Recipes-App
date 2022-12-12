@@ -6,7 +6,7 @@ import searchAPIs from './helpers/doTheFetch';
 
 export default function SearchBar() {
   const history = useHistory();
-  // const recepies = useSelector((state) => state.recepies);
+  // const recipes = useSelector((state) => state.recipes);
   const dispatch = useDispatch();
   const [searchType, setSearchType] = useState('');
   const [search, setSearch] = useState('');
@@ -38,6 +38,7 @@ export default function SearchBar() {
       </label>
       <label htmlFor="ingredient">
         <input
+          id="ingredient"
           value="ingredient"
           type="radio"
           name="ingredient"
@@ -48,6 +49,7 @@ export default function SearchBar() {
       </label>
       <label htmlFor="name">
         <input
+          id="name"
           value="name"
           type="radio"
           name="name"
@@ -58,6 +60,7 @@ export default function SearchBar() {
       </label>
       <label htmlFor="first-letter">
         <input
+          id="first-letter"
           type="radio"
           name="first-letter"
           data-testid="first-letter-search-radio"

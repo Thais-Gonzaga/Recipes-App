@@ -39,6 +39,9 @@ Header.propTypes = {
   // }).isRequired,
   title: PropTypes.string.isRequired,
   isSearchOn: PropTypes.bool.isRequired,
-  toggleSearchBar: PropTypes.func.isRequired,
+  toggleSearchBar: PropTypes.func,
+};
+Header.defaultProps = {
+  toggleSearchBar: () => false,
 };
 export default Header;

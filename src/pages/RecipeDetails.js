@@ -60,7 +60,10 @@ function RecipeDetails() {
           boolfavorite={ boolfavorite }
           idSelect={ id }
         />
-        <BtnShare />
+        <BtnShare
+          urlSnippet={ pathname }
+          dataTest="share-btn"
+        />
         <h3> Category:</h3>
         <p data-testid="recipe-category">{ strAlcoholic || strCategory }</p>
         <h3> Ingredients:</h3>

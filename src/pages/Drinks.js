@@ -7,7 +7,7 @@ import SearchBar from '../components/SearchBar';
 
 function Drinks() {
   const [searchBarOn, setSearchBarOn] = useState(false);
-  const recepies = useSelector((state) => state.reducer.recepies);
+  const recipes = useSelector((state) => state.reducer.recipes) || [];
   const numbTwelve = 12;
 
   const toggleSearchBar = () => {
@@ -18,9 +18,9 @@ function Drinks() {
       <Header title="Drinks" isSearchOn toggleSearchBar={ toggleSearchBar } />
       {searchBarOn && <SearchBar />}
       {
-        recepies.length === 1
-          ? <Redirect to={ `/drinks/${recepies[0].idDrink}` } />
-          : recepies.map((e, i) => {
+        recipes.length === 1
+          ? <Redirect to={ `/drinks/${recipes[0].idDrink}` } />
+          : recipes.map((e, i) => {
             if (i < numbTwelve) {
               return (
                 <div
