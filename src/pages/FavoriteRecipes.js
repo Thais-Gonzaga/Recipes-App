@@ -86,7 +86,7 @@ function FavoriteRecipes() {
       { (copyText) ? <h2>Link copied!</h2> : null }
       <div className="favItens">
         {/* {console.log(recepies)} */}
-        {recepies.map((e, index) => (
+        {recepies !== null && recepies.map((e, index) => (
           <div className="recipe" key={ index }>
             <Link to={ `/${e.type}s/${e.id}` }>
               <img

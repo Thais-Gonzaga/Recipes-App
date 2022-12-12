@@ -84,8 +84,8 @@ function DoneRecipes() {
 
         </button>
       </div>
-      {
-        doneRecipes
+      { doneRecipes !== null
+        && doneRecipes
           .filter((recipe) => recipe.type.includes(doneRecipesFilter))
           .map((recipe, index) => (
             <div key={ index }>
@@ -154,8 +154,7 @@ function DoneRecipes() {
                 />
               </button> */}
             </div>
-          ))
-      }
+          ))}
       <div />
     </div>
   );
