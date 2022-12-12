@@ -2,7 +2,6 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from '../renderWithRouter';
-// import App from '../App';
 import Login from '../pages/Login';
 
 const testEmail = 'trybe@trybe.com';
@@ -12,9 +11,7 @@ const pushUrl = '/meals';
 describe('Teste da Tela de Login', () => {
   it('É possivel escrever no campo de email?', () => {
     renderWithRouter(
-      // <AppProvider>
       <Login />,
-      // </AppProvider>,
     );
     const emailInput = screen.getByLabelText(/email:/i);
     expect(emailInput).toBeInTheDocument();
@@ -25,9 +22,7 @@ describe('Teste da Tela de Login', () => {
 
   it('É possivel escrever no campo de senha?', () => {
     renderWithRouter(
-      // <AppProvider>
       <Login />,
-      // </AppProvider>,
     );
     const passInput = screen.getByLabelText(/Passoword:/i);
     expect(passInput).toBeInTheDocument();
@@ -38,9 +33,7 @@ describe('Teste da Tela de Login', () => {
 
   it('Verifica se existe o button com o texto "Enter" e se ele está desabilitado', () => {
     renderWithRouter(
-      // <AppProvider>
       <Login />,
-      // </AppProvider>,
     );
     const fetchButton = screen.getByRole('button', { name: /Enter/i });
     expect(fetchButton).toBeInTheDocument();
@@ -49,9 +42,7 @@ describe('Teste da Tela de Login', () => {
 
   it('Verifica de ao preencher os campos o button habilita', () => {
     renderWithRouter(
-      // <AppProvider>
       <Login />,
-      // </AppProvider>,
     );
     const emailInput = screen.getByLabelText(/email:/i);
     userEvent.type(emailInput, testEmail);
