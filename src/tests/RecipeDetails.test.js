@@ -1,19 +1,14 @@
 import React from 'react';
-import { cleanup, screen, waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from '../renderWithRouter';
 import RecipeDetails from '../pages/RecipeDetails';
-import AppProvider from '../context/AppProvider';
 import oneDrink from '../../cypress/mocks/oneDrink';
 import drinks from '../../cypress/mocks/drinks';
 import meals from '../../cypress/mocks/meals';
 import oneMeal from '../../cypress/mocks/oneMeal';
-
-const mockFetch = (mock) => {
-  jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({ json: () => Promise.resolve(mock),
-  }));
-};
+import { doneRecipes, inProgressRecipes, nullInprogress } from './mocks/LocalStorege';
 
 jest.mock('clipboard-copy');
 
@@ -21,15 +16,18 @@ const white = 'whiteHeartIcon.svg';
 
 describe('Testes para página RecipeDetails', () => {
   it('verifique se a pagina tem os elementos de detalhes da comida', async () => {
-    mockFetch(drinks);
-    mockFetch(oneMeal);
-    cleanup();
+    localStorage.setItem('inProgressRecipes', JSON.stringify(nullInprogress));
+    global.fetch = jest.fn()
+      .mockImplementationOnce(() => Promise.resolve({ json: () => Promise.resolve(drinks),
+      }))
+      .mockImplementationOnce(
+        () => Promise.resolve({ json: () => Promise.resolve(oneMeal),
+        }),
+      );
 
     await act(async () => {
       renderWithRouter(
-        <AppProvider>
-          <RecipeDetails />
-        </AppProvider>,
+        <RecipeDetails />,
       );
     });
 
@@ -40,7 +38,7 @@ describe('Testes para página RecipeDetails', () => {
     const category = screen.getByTestId('recipe-category');
     const instructions = screen.getByTestId('instructions');
     const btnStart = screen.getByTestId('start-recipe-btn');
-    const ingredient = screen.getByTestId('0-ingredient-name-and-measure');
+    const ingredient = screen.getByTestId('1-ingredient-name-and-measure');
     const savefavoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
     const btnFavorite = screen.getByTestId('favorite-btn');
 
@@ -80,21 +78,30 @@ describe('Testes para página RecipeDetails', () => {
   });
 
   it('verifique se a pagina renderiza drinks', async () => {
-    cleanup();
-    mockFetch(meals);
-    mockFetch(oneDrink);
-    await act(async () => {
-      (
-        renderWithRouter(
-          <AppProvider>
-            <RecipeDetails />
-          </AppProvider>,
-        )
+    localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
+    localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
+    jest.useFakeTimers();
+    jest.spyOn(global, 'setTimeout');
+    global.fetch = jest.fn()
+      .mockImplementationOnce(
+        () => Promise.resolve({ json: () => Promise.resolve(meals) }),
+      )
+      .mockImplementationOnce(
+        () => Promise.resolve({ json: () => Promise.resolve(oneDrink),
+        }),
       );
-    });
+
+    renderWithRouter(
+      <RecipeDetails />,
+      '/drinks',
+    );
+
     expect(global.fetch).toHaveBeenCalled();
-    // não renderiza a fech do Onedrink:
-    const ingredient = screen.getByTestId('0-ingredient-name-and-measure');
-    expect(ingredient).toBeInTheDocument();
+    await waitFor(() => expect(screen.getByTestId('0-ingredient-name-and-measure')).toBeInTheDocument());
+    expect(screen.getByTestId('0-ingredient-name-and-measure')).toBeInTheDocument();
+    const btnShare = screen.getByTestId('share-btn');
+    act(() => {
+      userEvent.click(btnShare);
+    });
   });
 });
