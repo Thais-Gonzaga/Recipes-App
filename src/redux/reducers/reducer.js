@@ -1,14 +1,14 @@
 import { SEARCH_RESULTS } from '../actions';
 
 const INITIAL_STATE = {
-  recepies: [],
+  recipes: [],
 };
 const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case SEARCH_RESULTS: {
     return {
       ...state,
-      recepies: action.payload,
+      recipes: action.payload,
     };
   }
   default:
