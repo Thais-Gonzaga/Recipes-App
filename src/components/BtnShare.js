@@ -1,26 +1,25 @@
 import React, { useState } from 'react';
 import copy from 'clipboard-copy';
-import { useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import shareIcon from '../images/shareIcon.svg';
 
-function BtnShare() {
+function BtnShare({ urlSnippet, dataTest }) {
   const [isCopied, setIsCopied] = useState(false);
-  const { location: { pathname } } = useHistory();
   const time = 2000;
   return (
     <div>
       <button
-        data-testid="share-btn"
         type="button"
         onClick={ () => {
           setIsCopied(true);
-          copy(`http://localhost:3000${pathname}`);
+          copy(`http://localhost:3000${urlSnippet}`);
           setTimeout(() => {
             setIsCopied(false);
           }, time);
         } }
       >
         <img
+          data-testid={ dataTest }
           src={ shareIcon }
           alt="favorite icon"
         />
@@ -30,5 +29,8 @@ function BtnShare() {
     </div>
   );
 }
-
+BtnShare.propTypes = {
+  urlSnippet: PropTypes.string.isRequired,
+  dataTest: PropTypes.string.isRequired,
+};
 export default BtnShare;

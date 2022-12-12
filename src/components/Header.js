@@ -34,9 +34,9 @@ function Header({ title, isSearchOn, toggleSearchBar }) {
 }
 
 Header.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func,
-  }).isRequired,
+  // history: PropTypes.shape({
+  //   push: PropTypes.func,
+  // }).isRequired,
   title: PropTypes.string.isRequired,
   isSearchOn: PropTypes.bool.isRequired,
   toggleSearchBar: PropTypes.func.isRequired,
