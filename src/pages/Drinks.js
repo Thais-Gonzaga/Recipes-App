@@ -7,7 +7,7 @@ import SearchBar from '../components/SearchBar';
 
 function Drinks() {
   const [searchBarOn, setSearchBarOn] = useState(false);
-  const recipes = useSelector((state) => state.reducer.recipes);
+  const recipes = useSelector((state) => state.reducer.recipes) || [];
   const numbTwelve = 12;
 
   const toggleSearchBar = () => {
