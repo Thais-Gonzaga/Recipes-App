@@ -31,10 +31,15 @@ function BtnFavorite({ arrayFavorite, boolfavorite, idSelect }) {
 }
 
 BtnFavorite.propTypes = {
-  arrayFavorite: arrayOf(shape(string)).isRequired,
-  boolfavorite: bool.isRequired,
-  idSelect: string.isRequired,
+  arrayFavorite: arrayOf(shape({})),
+  boolfavorite: bool,
+  idSelect: string,
+};
 
+BtnFavorite.defaultProps = {
+  arrayFavorite: [],
+  boolfavorite: false,
+  idSelect: '',
 };
 
 export default BtnFavorite;

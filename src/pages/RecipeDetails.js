@@ -32,7 +32,7 @@ function RecipeDetails() {
 
   const fetchCB = useCallback(async () => {
     const data = await fetchApiId(id);
-    if (!data) return;
+    // if (!data) return;
     setResponse(data[0]);
   }, [id, fetchApiId]);
 

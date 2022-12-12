@@ -7,7 +7,7 @@ function Recommendations({ fetchApi }) {
 
   const fetchCB = useCallback(async () => {
     const data = await fetchApi();
-    if (!data) return;
+    // if (!data) return;
     setResponse(data);
   }, [fetchApi]);
 
