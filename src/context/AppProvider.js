@@ -1,11 +1,11 @@
 import React, { useState, useMemo } from 'react';
-import PropTypes from 'prop-types';
+import { node } from 'prop-types';
 import AppContext from './AppContext';
 
 function AppProvider({ children }) {
   const [loginEmail, setLoginEmail] = useState('');
   const [passoword, setPassoword] = useState('');
-  const [buttonEnter, setButton] = useState(true);
+  const [button, setButton] = useState(true);
 
   // Link para a explicação do useMemo
   // https://beta.reactjs.org/apis/react/useMemo
@@ -15,14 +15,14 @@ function AppProvider({ children }) {
     setLoginEmail,
     passoword,
     setPassoword,
-    buttonEnter,
+    button,
     setButton,
   }), [
     loginEmail,
     setLoginEmail,
     passoword,
     setPassoword,
-    buttonEnter,
+    button,
     setButton,
   ]);
 
@@ -32,8 +32,7 @@ function AppProvider({ children }) {
     </AppContext.Provider>
   );
 }
-
 AppProvider.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: node.isRequired,
 };
 export default AppProvider;

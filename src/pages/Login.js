@@ -4,7 +4,7 @@ import AppContext from '../context/AppContext';
 
 export default function Login() {
   const {
-    buttonEnter,
+    button,
     setButton,
     loginEmail,
     setLoginEmail,
@@ -19,13 +19,6 @@ export default function Login() {
     localStorage.setItem('user', JSON.stringify(format));
     history.push('/meals');
   };
-
-  //  const fetchButton = () => {
-  //  const format = { email: loginEmail };
-  //  localStorage.setItem('mealsToken', 1);
-  //  localStorage.setItem('cocktailsToken', 1);
-  //  localStorage.setItem('user', JSON.stringify(format));
-  //  >>>>>>> main-group-18-release
 
   const testLogin = () => {
     const testEmail = loginEmail.includes('@' && '.com');
@@ -75,7 +68,7 @@ export default function Login() {
         <button
           type="button"
           data-testid="login-submit-btn"
-          disabled={ buttonEnter }
+          disabled={ button }
           onClick={ () => fetchButton() }
         >
           Enter
