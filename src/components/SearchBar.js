@@ -6,7 +6,7 @@ import searchAPIs from './helpers/doTheFetch';
 
 export default function SearchBar() {
   const history = useHistory();
-  // const recepies = useSelector((state) => state.recepies);
+  // const recipes = useSelector((state) => state.recipes);
   const dispatch = useDispatch();
   const [searchType, setSearchType] = useState('');
   const [search, setSearch] = useState('');

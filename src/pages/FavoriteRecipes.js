@@ -5,55 +5,56 @@ import Drk from '../components/Drk';
 import Header from '../components/Header';
 import Meal from '../components/Meal';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
-import shareIcon from '../images/shareIcon.svg';
+// import shareIcon from '../images/shareIcon.svg';
+import BtnShare from '../components/BtnShare';
 
-const copy = require('clipboard-copy');
+// const copy = require('clipboard-copy');
 
 function FavoriteRecipes() {
-  const [recepies, setRecepies] = useState([]);
+  const [recipes, setrecipes] = useState([]);
   const [localStg, setLocalStg] = useState([]);
-  const [copyText, setCopyText] = useState(false);
-  const threeSec = 3000;
+  // const [copyText, setCopyText] = useState(false);
+  // const threeSec = 3000;
 
   useEffect(() => {
     let myFavs = [];
     // localStorage.setItem('favoriteRecipes', JSON.stringify(teste));
     myFavs = JSON.parse(localStorage.getItem('favoriteRecipes'));
-    setRecepies(myFavs);
+    setrecipes(myFavs);
     setLocalStg(myFavs);
   }, []);
 
   const allBtn = () => {
-    setRecepies(localStg);
+    setrecipes(localStg);
   };
 
   const mealBtn = () => {
     const onlyMeal = localStg.filter((e) => e.type === 'meal');
-    setRecepies(onlyMeal);
+    setrecipes(onlyMeal);
   };
 
   const drinkBtn = () => {
     const onlyDrink = localStg.filter((e) => e.type === 'drink');
-    setRecepies(onlyDrink);
+    setrecipes(onlyDrink);
   };
 
-  const shareBtn = (id, type) => {
-    if (type === 'meal') {
-      setCopyText(true);
-      copy(`http://localhost:3000/meals/${id}`);
-      setTimeout(() => {
-        setCopyText(false);
-      }, threeSec);
-      return global.alert('Link copied!');
-    }
-    copy(`http://localhost:3000/drinks/${id}`);
-    return global.alert('Link copied!');
-  };
+  // const shareBtn = (id, type) => {
+  //   if (type === 'meal') {
+  //     setCopyText(true);
+  //     copy(`http://localhost:3000/meals/${id}`);
+  //     setTimeout(() => {
+  //       setCopyText(false);
+  //     }, threeSec);
+  //     return global.alert('Link copied!');
+  //   }
+  //   copy(`http://localhost:3000/drinks/${id}`);
+  //   return global.alert('Link copied!');
+  // };
 
   const favBtn = (id) => {
-    const newFavs = recepies.filter((e) => e.id !== id);
+    const newFavs = recipes.filter((e) => e.id !== id);
     localStorage.setItem('favoriteRecipes', JSON.stringify(newFavs));
-    setRecepies(newFavs);
+    setrecipes(newFavs);
     setLocalStg(newFavs);
   };
 
@@ -83,10 +84,10 @@ function FavoriteRecipes() {
           Drinks
         </button>
       </div>
-      { (copyText) ? <h2>Link copied!</h2> : null }
+      {/* { (copyText) ? <h2>Link copied!</h2> : null } */}
       <div className="favItens">
-        {/* {console.log(recepies)} */}
-        {recepies !== null && recepies.map((e, index) => (
+        {/* {console.log(recipes)} */}
+        {recipes !== null && recipes.map((e, index) => (
           <div className="recipe" key={ index }>
             <Link to={ `/${e.type}s/${e.id}` }>
               <img
@@ -104,7 +105,11 @@ function FavoriteRecipes() {
                 ? <p data-testid={ `${index}-horizontal-top-text` }><Meal pro={ e } /></p>
                 : <p data-testid={ `${index}-horizontal-top-text` }><Drk pro={ e } /></p>
             }
-            <button
+            <BtnShare
+              urlSnippet={ `/${e.type}s/${e.id}` }
+              dataTest={ `${index}-horizontal-share-btn` }
+            />
+            {/* <button
               type="button"
               onClick={ () => shareBtn(e.id, e.type) }
             >
@@ -113,7 +118,7 @@ function FavoriteRecipes() {
                 alt="favorite Icon"
                 data-testid={ `${index}-horizontal-share-btn` }
               />
-            </button>
+            </button> */}
             <button
               type="button"
               onClick={ () => favBtn(e.id) }

@@ -41,4 +41,7 @@ Header.propTypes = {
   isSearchOn: PropTypes.bool.isRequired,
   toggleSearchBar: PropTypes.func,
 };
+Header.defaultProps = {
+  toggleSearchBar: () => false,
+};
 export default Header;
