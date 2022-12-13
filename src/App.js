@@ -30,13 +30,18 @@ function App() {
         render={ (props) => <Drinks { ...props } /> }
       />
       <Route
-        path="/meals/:id"
-        render={ (props) => <RecipeDetails { ...props } /> }
-      />
-      <Route
         exact
         path="/meals/:id/in-progress"
         render={ (props) => <RecipeInProgress { ...props } /> }
+      />
+      <Route
+        path="/drinks/:id/in-progress"
+        render={ (props) => <RecipeInProgress { ...props } /> }
+      />
+      <Route
+        exect
+        path="/meals/:id"
+        render={ (props) => <RecipeDetails { ...props } /> }
       />
       <Route
         exact
@@ -46,10 +51,6 @@ function App() {
       <Route
         path="/drinks/:id"
         render={ (props) => <RecipeDetails { ...props } /> }
-      />
-      <Route
-        path="/drinks/:id/in-progress"
-        render={ (props) => <RecipeInProgress { ...props } /> }
       />
       <Route
         path="/Profile"
