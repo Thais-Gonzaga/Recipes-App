@@ -4,7 +4,7 @@ import { useHistory } from 'react-router';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 
-function Header({ title, isSearchOn }) {
+function Header({ title, isSearchOn, toggleSearchBar }) {
   const history = useHistory();
   const handlesProfileClick = () => {
     history.push('/profile');
@@ -17,8 +17,16 @@ function Header({ title, isSearchOn }) {
       </button>
       {isSearchOn
       && (
-        <button type="button">
-          <img src={ searchIcon } alt="search" data-testid="search-top-btn" />
+        <button
+          type="button"
+          onClick={ toggleSearchBar }
+        >
+
+          <img
+            src={ searchIcon }
+            alt="search"
+            data-testid="search-top-btn"
+          />
         </button>)}
     </div>
 
@@ -26,10 +34,14 @@ function Header({ title, isSearchOn }) {
 }
 
 Header.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func,
-  }).isRequired,
+  // history: PropTypes.shape({
+  //   push: PropTypes.func,
+  // }).isRequired,
   title: PropTypes.string.isRequired,
   isSearchOn: PropTypes.bool.isRequired,
+  toggleSearchBar: PropTypes.func,
+};
+Header.defaultProps = {
+  toggleSearchBar: () => false,
 };
 export default Header;
