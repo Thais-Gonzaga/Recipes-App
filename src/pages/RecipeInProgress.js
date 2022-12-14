@@ -14,16 +14,34 @@ function RecipeInProgress() {
   const [reciveData, setReciveData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isChecked, setIsChecked] = useState([]);
-  // const [storageObject, setStorageObject] = useState({});
 
   const isDrink = history.location.pathname.includes('drinks');
   const key = isDrink ? 'drinks' : 'meals';
 
   const mealsEndpoint = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${params.id}`;
   const drinksEndpoint = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${params.id}`;
-  const arrayFavorite = valuesfavoriteRecipes(reciveData, isDrink);
+  const arrayFavorite = valuesfavoriteRecipes(reciveData, isDrink) || [];
   const current = getLocalStore('favoriteRecipes') || [];
   const boolfavorite = current.some(({ id: idSelect }) => params.id === idSelect);
+
+  const ingredients = Object.entries(reciveData)
+    .filter((i) => i[0].includes('strIngredient') && i[1]).map((i) => i[1]);
+  const measures = Object.entries(reciveData)
+    .filter((i) => i[0].includes('strMeasure') && i[1]).map((i) => i[1]);
+
+  const inProgressRecipes = JSON.parse(localStorage
+    .getItem('inProgressRecipes') || '{ "meals": {}, "drinks": {} }');
+  const isProgress = [inProgressRecipes].some((recipe) => (
+    +Object.keys(recipe[key]) === +params.id));
+  const obj = {
+    ...inProgressRecipes,
+    [key]: { ...inProgressRecipes[key],
+      [params.id]: [...ingredients],
+    },
+  };
+  if (!isProgress && ingredients.length) {
+    localStorage.setItem('inProgressRecipes', JSON.stringify(obj));
+  }
 
   const handleFetch = async () => {
     if (history.location.pathname.includes('meals')) {
@@ -36,39 +54,28 @@ function RecipeInProgress() {
     }
     setLoading(false);
   };
-
-  const ingredients = () => Object.entries(reciveData)
-    .filter((i) => i[0].includes('strIngredient')).map((i) => i[1]);
-  const measures = () => Object.entries(reciveData)
-    .filter((i) => i[0].includes('strMeasure')).map((i) => i[1]);
-
-  let indexNull = 0;
-  indexNull = ingredients().indexOf('');
-
-  const ingredientList = ingredients().slice(0, indexNull);
-  // console.log(ingredientList);
-
-  const handleLocalStorage = () => {
-    const inProgressRecipes = JSON.parse(localStorage
-      .getItem('inProgressRecipes')) || { [key]: {} };
-    const isProgress = [inProgressRecipes].some((recipe) => (
-      +Object.keys(recipe[key]) === +params.id));
-    const obj = {
-      ...inProgressRecipes,
-      [key]: { ...inProgressRecipes[key],
-        [params.id]: [...ingredientList],
-      },
-    };
-    if (!isProgress) {
-      localStorage.setItem('inProgressRecipes', JSON.stringify(obj));
-    }
-  };
+  // const handleLocalStorage = () => {
+  //   const inProgressRecipes = JSON.parse(localStorage
+  //     .getItem('inProgressRecipes') || '{ "meals": {}, "drinks": {} }');
+  //   const isProgress = [inProgressRecipes].some((recipe) => (
+  //     +Object.keys(recipe[key]) === +params.id));
+  //   const obj = {
+  //     ...inProgressRecipes,
+  //     [key]: { ...inProgressRecipes[key],
+  //       [params.id]: [...ingredients],
+  //     },
+  //   };
+  //   if (!isProgress) {
+  //     localStorage.setItem('inProgressRecipes', JSON.stringify(obj));
+  //   }
+  // };
 
   useEffect(() => {
-    const recoveryLocalStorage = JSON.parse(localStorage.getItem('doneIngredients'));
+    const recoveryLocalStorage = JSON.parse(
+      localStorage.getItem('doneIngredients') || '[]',
+    );
     setIsChecked(recoveryLocalStorage);
     handleFetch();
-    handleLocalStorage();
   }, []);
 
   if (loading) { return <span>carregando...</span>; }
@@ -90,7 +97,7 @@ function RecipeInProgress() {
 
   const buttonDisabled = () => {
     if (isChecked) {
-      const finished = isChecked.length === ingredientList.length;
+      const finished = isChecked.length === ingredients.length;
       return finished;
     }
   };
@@ -98,11 +105,9 @@ function RecipeInProgress() {
   const handleFinishRecipe = () => {
     const item = valuesDoneRecipes(reciveData, isDrink);
     localStorage.setItem('doneRecipes', JSON.stringify(item));
-    const inProgressRecipes = JSON.parse(localStorage
-      .getItem('inProgressRecipes')) || { [key]: {} };
-    const newArray = [inProgressRecipes].filter((recipe) => (
-      +Object.keys(+recipe[key]) !== +params.id));
-    console.log(newArray);
+    delete inProgressRecipes[key][+params.id];
+    localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
+    history.push('/done-recipes');
   };
 
   return (
@@ -120,7 +125,7 @@ function RecipeInProgress() {
         idSelect={ params.id }
       />
       <h2 data-testid="recipe-category">{ reciveData.strCategory }</h2>
-      {ingredientList.map((ingredient, index) => (
+      {ingredients.map((ingredient, index) => ingredient && (
         <div key={ index }>
           ingredientes
           <label htmlFor="ingredient" data-testid={ `${index}-ingredient-step` }>
@@ -131,7 +136,7 @@ function RecipeInProgress() {
               onChange={ handleChecked }
               type="checkbox"
             />
-            {`${ingredient} ${measures()[index]}`}
+            {`${ingredient} ${measures[index]}`}
           </label>
         </div>
       ))}
