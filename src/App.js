@@ -8,8 +8,9 @@ import RecipeInProgress from './pages/RecipeInProgress';
 import Profile from './pages/Profile';
 import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
-// import Drinks from './pages/Drinks';
-import Recipes from './Components/Recipes';
+import Meals from './pages/Meals';
+import Drinks from './pages/Drinks';
+// import Recipes from './Components/Recipes';
 
 function App() {
   return (
@@ -22,12 +23,12 @@ function App() {
       <Route
         exact
         path="/meals"
-        render={ (props) => <Recipes { ...props } /> }
+        render={ (props) => <Meals { ...props } /> }
       />
       <Route
         exact
         path="/drinks"
-        render={ (props) => <Recipes { ...props } /> }
+        render={ (props) => <Drinks { ...props } /> }
       />
       <Route
         exact

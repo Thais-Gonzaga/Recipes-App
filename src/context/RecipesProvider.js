@@ -13,7 +13,7 @@ export default function RecipesProvider({ children }) {
       const response = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
       const data = await response.json();
       setMeals(data.meals);
-      // console.log(data);
+      console.log(data.meals);
     } catch (error) {
       console.log('erro no fetchMeals');
     }
