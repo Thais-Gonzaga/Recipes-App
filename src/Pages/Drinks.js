@@ -1,10 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
 
 export default function Drinks() {
   const { drinks, categoryDrinks,
     setDrinks, fetchApiDrinks } = useContext(RecipesContext);
+  const [selectCat, setSelectCat] = useState('');
 
   const fetchSerchCategoryDrinks = async (cat) => {
     try {
@@ -26,7 +27,14 @@ export default function Drinks() {
               type="button"
               name={ strCategory }
               data-testid={ `${strCategory}-category-filter` }
-              onClick={ () => { fetchSerchCategoryDrinks(strCategory); } }
+              onClick={ () => {
+                if (selectCat !== strCategory) {
+                  fetchSerchCategoryDrinks(strCategory);
+                  setSelectCat(strCategory);
+                } else {
+                  fetchApiDrinks();
+                }
+              } }
             >
               {strCategory}
             </button>
