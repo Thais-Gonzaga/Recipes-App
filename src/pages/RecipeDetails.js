@@ -5,7 +5,7 @@ import BtnShare from '../components/BtnShare';
 import Recommendations from '../components/Recommendations';
 import { fetchDrink, fetchDrinkId, fetchMeals, fetchMealsId } from '../services/fetchApi';
 import valuesApi from '../services/valuesApi';
-import valuesfavoriteRecipes from '../services/valuesfavoriteRecipes';
+import { valuesfavoriteRecipes } from '../services/valuesfavoriteRecipes';
 import { getLocalStore } from '../services/localStore';
 
 const nullInprogress = { drinks: {}, meals: {} };

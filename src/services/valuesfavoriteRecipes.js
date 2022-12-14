@@ -1,4 +1,4 @@
-const valuesfavoriteRecipes = (response, isDrink) => [response].map((e) => (
+export const valuesfavoriteRecipes = (response, isDrink) => [response].map((e) => (
   {
     id: e.idMeal || e.idDrink,
     type: isDrink ? 'drink' : 'meal',
@@ -10,4 +10,16 @@ const valuesfavoriteRecipes = (response, isDrink) => [response].map((e) => (
   }
 ));
 
-export default valuesfavoriteRecipes;
+export const valuesDoneRecipes = (response, isDrink) => [response].map((e) => (
+  {
+    id: e.idMeal || e.idDrink,
+    type: isDrink ? 'drink' : 'meal',
+    nationality: e.strArea || '',
+    category: e.strCategory || '',
+    alcoholicOrNot: e.strAlcoholic || '',
+    name: e.strDrink || e.strMeal,
+    image: e.strDrinkThumb || e.strMealThumb,
+    doneDate: new Date(),
+    tags: [e.strTags[0], e.strTags[1]],
+  }
+));

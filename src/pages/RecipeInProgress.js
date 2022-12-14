@@ -2,6 +2,11 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import requestApi from '../services/requestApi';
 import '../App.css';
+import BtnShare from '../components/BtnShare';
+import BtnFavorite from '../components/BtnFavorite';
+import { valuesfavoriteRecipes,
+  valuesDoneRecipes } from '../services/valuesfavoriteRecipes';
+import { getLocalStore } from '../services/localStore';
 
 function RecipeInProgress() {
   const history = useHistory();
@@ -16,6 +21,9 @@ function RecipeInProgress() {
 
   const mealsEndpoint = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${params.id}`;
   const drinksEndpoint = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${params.id}`;
+  const arrayFavorite = valuesfavoriteRecipes(reciveData, isDrink);
+  const current = getLocalStore('favoriteRecipes') || [];
+  const boolfavorite = current.some(({ id: idSelect }) => params.id === idSelect);
 
   const handleFetch = async () => {
     if (history.location.pathname.includes('meals')) {
@@ -38,7 +46,7 @@ function RecipeInProgress() {
   indexNull = ingredients().indexOf('');
 
   const ingredientList = ingredients().slice(0, indexNull);
-  console.log(ingredientList);
+  // console.log(ingredientList);
 
   const handleLocalStorage = () => {
     const inProgressRecipes = JSON.parse(localStorage
@@ -79,13 +87,38 @@ function RecipeInProgress() {
       target.parentElement.classList = null;
     }
   };
-  // console.log(isChecked);
+
+  const buttonDisabled = () => {
+    if (isChecked) {
+      const finished = isChecked.length === ingredientList.length;
+      return finished;
+    }
+  };
+
+  const handleFinishRecipe = () => {
+    const item = valuesDoneRecipes(reciveData, isDrink);
+    localStorage.setItem('doneRecipes', JSON.stringify(item));
+    const inProgressRecipes = JSON.parse(localStorage
+      .getItem('inProgressRecipes')) || { [key]: {} };
+    const newArray = [inProgressRecipes].filter((recipe) => (
+      +Object.keys(+recipe[key]) !== +params.id));
+    console.log(newArray);
+  };
+
   return (
     <div>
-      <img data-testid="recipe-photo" src={ reciveData.strMealThumb } alt="foodImg" />
-      <h1 data-testid="recipe-title">{ reciveData.strMeal }</h1>
-      <button type="button" data-testid="share-btn">COMPARTILHAR</button>
-      <button type="button" data-testid="favorite-btn">FAVORITAR</button>
+      <img
+        data-testid="recipe-photo"
+        src={ reciveData.strMealThumb || reciveData.strDrinkThumb }
+        alt="foodImg"
+      />
+      <h1 data-testid="recipe-title">{ reciveData.strMeal || reciveData.strDrink }</h1>
+      <BtnShare urlSnippet={ `/${key}/${params.id}` } dataTest="share-btn" />
+      <BtnFavorite
+        arrayFavorite={ arrayFavorite }
+        boolfavorite={ boolfavorite }
+        idSelect={ params.id }
+      />
       <h2 data-testid="recipe-category">{ reciveData.strCategory }</h2>
       {ingredientList.map((ingredient, index) => (
         <div key={ index }>
@@ -106,9 +139,10 @@ function RecipeInProgress() {
       <button
         type="button"
         data-testid="finish-recipe-btn"
-        onClick={ () => console.log('clickou') }
+        disabled={ !buttonDisabled() }
+        onClick={ handleFinishRecipe }
       >
-        FINNISH RECIPE
+        FINISH RECIPE
       </button>
     </div>
 
