@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import BtnShare from '../components/BtnShare';
 import Header from '../components/Header';
+import './styles/DoneRecipes.css';
 
 function DoneRecipes() {
   const [doneRecipes, setDoneRecipes] = useState([]);
@@ -91,6 +92,7 @@ function DoneRecipes() {
             <div key={ index }>
               <Link to={ `/${recipe.type}s/${recipe.id}` }>
                 <img
+                  className="recipeImg"
                   src={ recipe.image }
                   alt={ recipe.name }
                   data-testid={ `${index}-horizontal-image` }

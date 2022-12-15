@@ -14,11 +14,13 @@ export default function SearchBar() {
   const HandleClick = async () => {
     const path = history.location.pathname;
     const mySearch = await searchAPIs(path, searchType, search);
-    console.log(path, searchType, search, mySearch);
+    console.log(path, searchType, search);
     if (!mySearch || mySearch.length === 0) {
+      console.log('deu ruim');
       global.alert('Sorry, we haven\'t found any recipes for these filters.');
       return dispatch(searchResults([]));
     }
+    console.log('deu bom');
     dispatch(searchResults(mySearch));
     setSearch('');
     setSearchType('');

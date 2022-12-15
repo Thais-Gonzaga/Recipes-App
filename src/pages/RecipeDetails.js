@@ -68,12 +68,14 @@ function RecipeDetails() {
         <p data-testid="recipe-category">{ strAlcoholic || strCategory }</p>
         <h3> Ingredients:</h3>
         <ul>
+          {/* {console.log(ingredients)} */}
           {ingredients.map(({ k }, index) => (
             <li
               data-testid={ `${index}-ingredient-name-and-measure` }
               key={ index }
             >
-              {`${k} ${measure[index].k}`}
+              {/* {console.log(e, measure[index])} */}
+              {`${k} ${measure[index]?.k || ''}`}
             </li>
           ))}
         </ul>

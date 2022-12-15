@@ -1,11 +1,16 @@
 import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Link, Redirect } from 'react-router-dom';
+import Header from '../components/Header';
+import SearchBar from '../components/SearchBar';
 import RecipesContext from '../context/RecipesContext';
 
 export default function Meals() {
   const { meals, categoryMeals,
     setMeals, fetchApiMeals } = useContext(RecipesContext);
   const [selectCat, setSelectCat] = useState('');
+  const [searchBarOn, setSearchBarOn] = useState(false);
+  const recipes = useSelector((state) => state.reducer.recipes) || [];
 
   const fetchSerchCategoryMeals = async (cat) => {
     try {
@@ -18,8 +23,26 @@ export default function Meals() {
     }
   };
 
+  const changeMeals = (result) => setMeals(result);
+
+  const toggleSearchBar = () => {
+    setSearchBarOn((prevState) => !prevState);
+  };
+
   return (
     <>
+      <Header title="Meals" isSearchOn toggleSearchBar={ toggleSearchBar } />
+      {searchBarOn && <SearchBar />}
+      {
+        recipes.length === 1
+          ? <Redirect to={ `/meals/${recipes[0].idMeal}` } />
+          : null
+      }
+      {
+        recipes.length >= 2
+          ? changeMeals(recipes)
+          : null
+      }
       <div>
         {categoryMeals.map(({ strCategory }, index) => index < '5' && (
           <div key={ index }>
@@ -66,7 +89,6 @@ export default function Meals() {
           </div>
         ))}
       </div>
-
     </>
   );
 }
