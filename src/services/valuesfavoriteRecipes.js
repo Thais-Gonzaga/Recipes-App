@@ -20,6 +20,6 @@ export const valuesDoneRecipes = (response, isDrink) => [response].map((e) => (
     name: e.strDrink || e.strMeal,
     image: e.strDrinkThumb || e.strMealThumb,
     doneDate: new Date(),
-    tags: [e.strTags[0], e.strTags[1]],
+    tags: e.strTags ? e.strTags.split(',') : [],
   }
 ));
